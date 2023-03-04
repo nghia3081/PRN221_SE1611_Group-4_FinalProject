@@ -5,7 +5,7 @@ namespace SE1611_Group_4_Final_Project.Utils.AppSetting
     public class ApplicationSetting
     {
         private readonly IConfigurationRoot _configurationRoot;
-        [Config(propertyType: ConfigAttribute.PropertyType.ConnectionStrings, "MotelManagementConnection")]
+        [Config(ConfigAttribute.AttributeSection.ConnectionStrings, "MotelManagementConnection")]
         public string ConnectionString { get; private set; }
         public static ApplicationSetting Instance
         {
