@@ -1,6 +1,6 @@
 ﻿namespace SE1611_Group_4_Final_Project.Models
 {
-    public partial class User
+    public partial class User : Entity
     {
         public Guid Id { get; set; }
         public Guid? RoomId { get; set; }

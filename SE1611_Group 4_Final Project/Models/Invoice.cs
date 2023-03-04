@@ -1,6 +1,6 @@
 ﻿namespace SE1611_Group_4_Final_Project.Models
 {
-    public partial class Invoice
+    public partial class Invoice : Entity
     {
         public Guid Id { get; set; }
         public int? TypeId { get; set; }

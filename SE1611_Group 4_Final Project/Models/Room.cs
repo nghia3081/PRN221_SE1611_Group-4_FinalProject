@@ -1,6 +1,6 @@
 ﻿namespace SE1611_Group_4_Final_Project.Models
 {
-    public partial class Room
+    public partial class Room : Entity
     {
         public Room()
         {

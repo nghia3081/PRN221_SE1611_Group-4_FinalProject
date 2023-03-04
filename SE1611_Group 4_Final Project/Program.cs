@@ -1,7 +1,4 @@
-using SE1611_Group_4_Final_Project.Repository;
-using SE1611_Group_4_Final_Project.Repository.Interfaces;
 using SE1611_Group_4_Final_Project.Utils;
-
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();

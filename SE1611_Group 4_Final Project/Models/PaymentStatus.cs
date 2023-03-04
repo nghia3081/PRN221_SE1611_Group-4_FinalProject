@@ -1,6 +1,6 @@
 ﻿namespace SE1611_Group_4_Final_Project.Models
 {
-    public partial class PaymentStatus
+    public partial class PaymentStatus : Entity
     {
         public PaymentStatus()
         {

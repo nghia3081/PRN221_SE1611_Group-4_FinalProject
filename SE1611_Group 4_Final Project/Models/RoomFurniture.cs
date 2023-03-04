@@ -1,6 +1,6 @@
 ﻿namespace SE1611_Group_4_Final_Project.Models
 {
-    public partial class RoomFurniture
+    public partial class RoomFurniture : Entity
     {
         public Guid Id { get; set; }
         public string Name { get; set; } = null!;

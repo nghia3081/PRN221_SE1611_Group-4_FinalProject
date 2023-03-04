@@ -1,6 +1,6 @@
 ﻿namespace SE1611_Group_4_Final_Project.Models
 {
-    public partial class Notification
+    public partial class Notification : Entity
     {
         public Notification()
         {
