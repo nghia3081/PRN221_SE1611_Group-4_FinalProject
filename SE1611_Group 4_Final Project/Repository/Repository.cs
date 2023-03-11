@@ -55,5 +55,10 @@ namespace SE1611_Group_4_Final_Project.Repository
             return _motelManagementContext.Users.FirstOrDefault(x => x.Email == email);
         }
 
+        public User FindUserByEmailandPassword(string email, string password)
+        {
+            return _motelManagementContext.Users.FirstOrDefault(x => x.Email == email && x.Password == password);
+        }
+
     }
 }

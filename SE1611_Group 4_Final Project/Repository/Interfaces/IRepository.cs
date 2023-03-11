@@ -14,6 +14,7 @@ namespace SE1611_Group_4_Final_Project.IRepository
         public Task Delete(T entity);
         public String GeneratePasswordResetToken(User user);
         public User FindUserByEmail(string email);
+        public User FindUserByEmailandPassword(string email, string password);
     }
 }
 
