@@ -1,30 +1,22 @@
 ﻿using SE1611_Group_4_Final_Project.Models;
-using SE1611_Group_4_Final_Project.Repository.Interfaces;
 
 namespace SE1611_Group_4_Final_Project.Repository
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : Repository<User>
     {
-        private readonly MotelManagementContext context = new MotelManagementContext();
-
-        public async Task Add(User user)
+        public MotelManagementContext _motelManagementContext;
+        public UserRepository(MotelManagementContext motelManagementContext) : base(motelManagementContext)
         {
-            context.Users.Add(user);
-            context.SaveChanges();
+            _motelManagementContext = motelManagementContext;
         }
-
-        public async Task Update(User user)
+        public string GeneratePasswordResetToken(User user)
         {
-            context.Users.Find(user.Id.GetType());
-            context.Users.Update(user);
-            context.SaveChanges();
-        }
+            var token = Guid.NewGuid().ToString();
+            _motelManagementContext.Entry<User>(user).Entity.IdentifyNumber = token;
+            _motelManagementContext.Users.Update(user);
+            _motelManagementContext.SaveChanges();
 
-        public async Task Delete(User user)
-        {
-            context.Users.Find(user.Id.GetType());
-            context.Users.Remove(user);
-            context.SaveChanges();
+            return token;
         }
     }
 }

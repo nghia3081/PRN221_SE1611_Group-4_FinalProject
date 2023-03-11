@@ -32,7 +32,8 @@
         public enum PropertyType
         {
             ConnectionStrings,
-            AppSettings
+            AppSettings,
+            SendGrid
         }
     }
 }
