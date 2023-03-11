@@ -7,6 +7,14 @@ namespace SE1611_Group_4_Final_Project.Utils.AppSetting
         private readonly IConfigurationRoot _configurationRoot;
         [Config(propertyType: ConfigAttribute.PropertyType.ConnectionStrings, "MotelManagementConnection")]
         public string ConnectionString { get; private set; }
+        [Config(ConfigAttribute.PropertyType.SendGrid, "smtpRemote")]
+        public string MailServiceRemote { get; private set; }
+        [Config(ConfigAttribute.PropertyType.SendGrid, "from")]
+        public string MailServiceEmail { get; private set; }
+        [Config(ConfigAttribute.PropertyType.SendGrid, "smtpPort")]
+        public int MailServicePort { get; private set; }
+        [Config(ConfigAttribute.PropertyType.SendGrid, "fromPass")]
+        public string MailServicePassword { get; private set; }
         public static ApplicationSetting Instance
         {
             get
@@ -14,6 +22,7 @@ namespace SE1611_Group_4_Final_Project.Utils.AppSetting
                 return instance;
             }
         }
+
         private ApplicationSetting()
         {
             _configurationRoot = new ConfigurationManager().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", false, true).Build();

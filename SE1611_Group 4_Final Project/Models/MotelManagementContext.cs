@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SE1611_Group_4_Final_Project.Utils.AppSetting;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace SE1611_Group_4_Final_Project.Models
 {
@@ -8,10 +10,12 @@ namespace SE1611_Group_4_Final_Project.Models
         public MotelManagementContext()
         {
         }
+
         public MotelManagementContext(DbContextOptions<MotelManagementContext> options)
             : base(options)
         {
         }
+
         public virtual DbSet<FurnitureStatus> FurnitureStatuses { get; set; } = null!;
         public virtual DbSet<Invoice> Invoices { get; set; } = null!;
         public virtual DbSet<InvoiceType> InvoiceTypes { get; set; } = null!;
@@ -25,7 +29,8 @@ namespace SE1611_Group_4_Final_Project.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(ApplicationSetting.Instance.ConnectionString);
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("server=210.211.127.85,6666;uid=motel;password=Motel@01032023!@#;database=MotelManagement");
             }
         }
 

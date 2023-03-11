@@ -1,4 +1,7 @@
-﻿namespace SE1611_Group_4_Final_Project.Models
+﻿using System;
+using System.Collections.Generic;
+
+namespace SE1611_Group_4_Final_Project.Models
 {
     public partial class RoomFurniture
     {
