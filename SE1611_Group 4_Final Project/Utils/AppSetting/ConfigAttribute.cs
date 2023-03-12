@@ -32,7 +32,8 @@
         public enum AttributeSection
         {
             ConnectionStrings,
-            AppSettings
+            AppSettings,
+            SendGrid
         }
     }
 }

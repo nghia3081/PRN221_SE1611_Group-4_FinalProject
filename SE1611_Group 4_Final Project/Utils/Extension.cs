@@ -1,6 +1,7 @@
 ﻿using SE1611_Group_4_Final_Project.IRepository;
 using SE1611_Group_4_Final_Project.Models;
 using SE1611_Group_4_Final_Project.Repository;
+using SE1611_Group_4_Final_Project.Repository.Interfaces;
 
 namespace SE1611_Group_4_Final_Project.Utils
 {
@@ -20,11 +21,13 @@ namespace SE1611_Group_4_Final_Project.Utils
             }
             return value;
         }
-        public static bool IsNullOrWhiteSpace(this string value) => string.IsNullOrWhiteSpace(value);
-        public static bool IsNullOrEmpty(this string value) => string.IsNullOrEmpty(value);
+        public static bool IsNullOrEmpty(this string valueStr) => string.IsNullOrEmpty(valueStr);
+
         public static IServiceCollection RegisterMyServices(this IServiceCollection services) => services
                     .AddTransient<MotelManagementContext>()
-                    .AddTransient<IRepository<Entity>, Repository<Entity>>()
-            ;
+                    .AddScoped(typeof(IRepository<>), typeof(Repository<>))
+                    .AddSingleton<IEmailSender, EmailSender>();
+
+
     }
 }
