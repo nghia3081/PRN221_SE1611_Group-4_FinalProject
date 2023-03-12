@@ -17,6 +17,7 @@
         public string Address { get; set; } = null!;
         public bool? IsAvailable { get; set; }
 
+        public virtual BookingRequest? BookingRequest { get; set; }
         public virtual ICollection<Invoice> Invoices { get; set; }
         public virtual ICollection<RoomFurniture> RoomFurnitures { get; set; }
         public virtual ICollection<User> Users { get; set; }

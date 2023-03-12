@@ -17,7 +17,7 @@ namespace SE1611_Group_4_Final_Project.Pages
             string token = HttpContext.Session.GetString(Constant.forgotTokenSessionKey);
             if (token.IsNullOrEmpty()) throw new Exception("Invalid request");
             string[] tokenSplit = token.Split(':');
-            if(!_userRepository.GetDbSet().Any(u => u.Id.ToString().Equals(tokenSplit[0]))) throw new Exception("Invalid User");
+            if (!_userRepository.GetDbSet().Any(u => u.Id.ToString().Equals(tokenSplit[0]))) throw new Exception("Invalid User");
             long tick = long.Parse(tokenSplit[1]);
             DateTime tokenCreatedTime = new DateTime(tick);
             if (tokenCreatedTime.AddMinutes(Constant.expireForgotTokenMinute) < DateTime.Now) throw new Exception("Token has expired");

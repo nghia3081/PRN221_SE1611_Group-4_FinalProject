@@ -23,7 +23,7 @@ namespace SE1611_Group_4_Final_Project.Pages
         public IActionResult OnGetLogout()
         {
             HttpContext.Session.Remove("email");
-            return RedirectToPage("Login");
+            return RedirectToPage("Index");
         }
         public IActionResult OnGetLogin()
         {

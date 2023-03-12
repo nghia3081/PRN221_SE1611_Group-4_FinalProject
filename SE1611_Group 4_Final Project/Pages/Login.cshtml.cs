@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using NuGet.Protocol.Core.Types;
+using SE1611_Group_4_Final_Project.IRepository;
 using SE1611_Group_4_Final_Project.Models;
 using SE1611_Group_4_Final_Project.Repository;
 
@@ -13,10 +15,11 @@ namespace SE1611_Group_4_Final_Project.Pages
         [BindProperty]
         public string Password { get; set; }
         public string Msg { get; set; }
-        public Repository<User> repository { get; set; }
+        private readonly IRepository<User> _userRepository;
         private readonly ILogger<LoginModel> _logger;
-        public LoginModel(ILogger<LoginModel> logger)
+        public LoginModel(ILogger<LoginModel> logger, IRepository<User> userRepository)
         {
+            _userRepository = userRepository;
             _logger = logger;
         }
 
@@ -25,7 +28,7 @@ namespace SE1611_Group_4_Final_Project.Pages
 
         }
         public IActionResult OnPost() {
-            var user = repository.Find(Email,Password);
+            var user = _userRepository.FindUserByEmailandPassword(Email, Password);
 
             if (user != null)
             {
@@ -34,7 +37,6 @@ namespace SE1611_Group_4_Final_Project.Pages
                 {
                     CookieOptions option = new CookieOptions();
                     option.Expires = DateTime.Now.AddDays(30);
-                    //Create a Cookie with a suitable Key and add the Cookie to Browser.
                     Response.Cookies.Append("email", Email, option);
                 }
                 return RedirectToPage("Index");
