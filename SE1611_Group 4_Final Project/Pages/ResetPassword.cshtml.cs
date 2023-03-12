@@ -1,9 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Build.Framework;
 using SE1611_Group_4_Final_Project.IRepository;
 using SE1611_Group_4_Final_Project.Models;
-using SE1611_Group_4_Final_Project.Repository;
 using SE1611_Group_4_Final_Project.Utils;
 
 namespace SE1611_Group_4_Final_Project.Pages

@@ -14,6 +14,10 @@ namespace SE1611_Group_4_Final_Project.Repository
             _entities = _motelManagementContext.Set<T>();
         }
         public DbSet<T> GetDbSet() => _entities;
+        public DbSet<Y> GetDbSet<Y>() where Y : class
+        {
+            return _motelManagementContext.Set<Y>();
+        }
         public T Find(params object?[]? key)
         {
             var findResult = _entities.Find(key);
@@ -41,6 +45,13 @@ namespace SE1611_Group_4_Final_Project.Repository
             _entities.Remove(entity);
             await _motelManagementContext.SaveChangesAsync();
         }
+        public async Task Delete(params object?[]? key)
+        {
+            var foundRecord = Find(key);
+            _entities.Remove(foundRecord);
+            await _motelManagementContext.SaveChangesAsync();
+
+        }
         public string GeneratePasswordResetToken(User user)
         {
             if (typeof(T) != typeof(User)) throw new Exception("Only for user");
@@ -58,6 +69,7 @@ namespace SE1611_Group_4_Final_Project.Repository
         {
             return _motelManagementContext.Users.FirstOrDefault(x => x.Email == email && x.Password == password);
         }
+
 
     }
 }

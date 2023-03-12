@@ -53,6 +53,8 @@ namespace SE1611_Group_4_Final_Project.Models
 
                 entity.Property(e => e.Phone).HasMaxLength(20);
 
+                entity.Property(e => e.Accept).HasDefaultValue(false);
+
                 entity.HasOne(d => d.Room)
                     .WithOne(p => p.BookingRequest)
                     .HasForeignKey<BookingRequest>(d => d.RoomId)
