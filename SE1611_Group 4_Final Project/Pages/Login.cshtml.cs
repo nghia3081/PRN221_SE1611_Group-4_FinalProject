@@ -14,7 +14,7 @@ namespace SE1611_Group_4_Final_Project.Pages
 
         [BindProperty]
         public string Password { get; set; }
-        public string Msg { get; set; }
+        public string ErrorMessage { get; set; }
         private readonly IRepository<User> _userRepository;
         private readonly ILogger<LoginModel> _logger;
         public LoginModel(ILogger<LoginModel> logger, IRepository<User> userRepository)
@@ -43,7 +43,7 @@ namespace SE1611_Group_4_Final_Project.Pages
             }
             else
             {
-                Msg = "Email or Password Invalid";
+                ErrorMessage = "Email or Password Invalid";
                 return Page();
             }
         }
