@@ -14,22 +14,22 @@
             DefaultValue = string.Empty;
             ThrowExceptionIfSourceNotExist = true;
         }
-        public ConfigAttribute(PropertyType propertyType, string key)
+        public ConfigAttribute(AttributeSection section, string key)
         {
-            this.Section = propertyType.ToString();
+            this.Section = section.ToString();
             this.Key = key;
             this.DefaultValue = string.Empty;
             this.ThrowExceptionIfSourceNotExist = true;
         }
 
-        public ConfigAttribute(PropertyType propertyType, string key, object defaultValue, bool throwExceptionIfSourceNotExist)
+        public ConfigAttribute(AttributeSection propertyType, string key, object defaultValue, bool throwExceptionIfSourceNotExist)
         {
             this.Key = key;
             this.DefaultValue = defaultValue;
             this.Section = propertyType.ToString();
             this.ThrowExceptionIfSourceNotExist = throwExceptionIfSourceNotExist;
         }
-        public enum PropertyType
+        public enum AttributeSection
         {
             ConnectionStrings,
             AppSettings,

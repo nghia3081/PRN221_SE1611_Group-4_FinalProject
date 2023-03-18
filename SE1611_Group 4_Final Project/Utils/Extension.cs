@@ -3,7 +3,6 @@ using SE1611_Group_4_Final_Project.Models;
 using SE1611_Group_4_Final_Project.Repository;
 using SE1611_Group_4_Final_Project.Repository.Interfaces;
 
-
 namespace SE1611_Group_4_Final_Project.Utils
 {
     public static class Extension
@@ -20,7 +19,6 @@ namespace SE1611_Group_4_Final_Project.Utils
             {
                 value = valueStr;
             }
-
             return value;
         }
         public static bool IsNullOrEmpty(this string valueStr) => string.IsNullOrEmpty(valueStr);

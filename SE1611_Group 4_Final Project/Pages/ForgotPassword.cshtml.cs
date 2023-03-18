@@ -1,16 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SE1611_Group_4_Final_Project.Models;
-using SE1611_Group_4_Final_Project.Repository;
 using SE1611_Group_4_Final_Project.Repository.Interfaces;
 using System.Text.Encodings.Web;
-using Microsoft.Extensions.Logging;
 using System.ComponentModel.DataAnnotations;
 using SE1611_Group_4_Final_Project.IRepository;
-using Microsoft.VisualBasic;
 using SE1611_Group_4_Final_Project.Utils;
 
 namespace SE1611_Group_4_Final_Project.Pages

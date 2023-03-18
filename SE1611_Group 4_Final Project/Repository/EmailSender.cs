@@ -1,7 +1,5 @@
 ﻿using SE1611_Group_4_Final_Project.Repository.Interfaces;
 using SE1611_Group_4_Final_Project.Utils.AppSetting;
-using SendGrid;
-using SendGrid.Helpers.Mail;
 using System.Net;
 using System.Net.Mail;
 using System.Text;

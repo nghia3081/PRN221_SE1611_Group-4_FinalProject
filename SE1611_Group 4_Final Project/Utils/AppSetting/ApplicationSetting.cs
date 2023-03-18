@@ -5,15 +5,15 @@ namespace SE1611_Group_4_Final_Project.Utils.AppSetting
     public class ApplicationSetting
     {
         private readonly IConfigurationRoot _configurationRoot;
-        [Config(propertyType: ConfigAttribute.PropertyType.ConnectionStrings, "MotelManagementConnection")]
+        [Config(ConfigAttribute.AttributeSection.ConnectionStrings, "MotelManagementConnection")]
         public string ConnectionString { get; private set; }
-        [Config(ConfigAttribute.PropertyType.SendGrid, "smtpRemote")]
+        [Config(ConfigAttribute.AttributeSection.SendGrid, "smtpRemote")]
         public string MailServiceRemote { get; private set; }
-        [Config(ConfigAttribute.PropertyType.SendGrid, "from")]
+        [Config(ConfigAttribute.AttributeSection.SendGrid, "from")]
         public string MailServiceEmail { get; private set; }
-        [Config(ConfigAttribute.PropertyType.SendGrid, "smtpPort")]
+        [Config(ConfigAttribute.AttributeSection.SendGrid, "smtpPort")]
         public int MailServicePort { get; private set; }
-        [Config(ConfigAttribute.PropertyType.SendGrid, "fromPass")]
+        [Config(ConfigAttribute.AttributeSection.SendGrid, "fromPass")]
         public string MailServicePassword { get; private set; }
         public static ApplicationSetting Instance
         {
