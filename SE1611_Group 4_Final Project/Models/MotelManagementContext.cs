@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace SE1611_Group_4_Final_Project.Models
 {
@@ -33,6 +30,41 @@ namespace SE1611_Group_4_Final_Project.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<BookingRequest>(entity =>
+            {
+                entity.HasKey(e => e.RoomId)
+                    .HasName("PK__BookingR__3286393927F62C4F");
+
+                entity.ToTable("BookingRequest");
+
+                entity.Property(e => e.RoomId).ValueGeneratedNever();
+
+                entity.Property(e => e.Address).HasMaxLength(255);
+
+                entity.Property(e => e.Email).HasMaxLength(50);
+
+                entity.Property(e => e.IdentifyNumber).HasMaxLength(20);
+
+                entity.Property(e => e.Name).HasMaxLength(50);
+
+                entity.Property(e => e.Phone).HasMaxLength(20);
+
+                entity.HasOne(d => d.Room)
+                    .WithOne(p => p.BookingRequest)
+                    .HasForeignKey<BookingRequest>(d => d.RoomId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__BookingRe__RoomI__3A81B327");
+            });
+
+            modelBuilder.Entity<FurnitureStatus>(entity =>
+            {
+                entity.ToTable("FurnitureStatus");
+
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.Name).HasMaxLength(100);
+            });
+
             modelBuilder.Entity<Invoice>(entity =>
             {
                 entity.ToTable("Invoice");
