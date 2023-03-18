@@ -43,26 +43,17 @@ namespace SE1611_Group_4_Final_Project.Pages
         {
             if (ModelState.IsValid)
             {
-
                 var user = UserRepository.FindUserByEmail(Input.Email);
                 if (user == null)
                 {
-                    // Nếu email không tồn tại, hiển thị thông báo lỗi
                     ErrorMessage = "Email not found";
                     return Page();
                 }
-
-                // Nếu email tồn tại, gửi email thông báo đặt lại mật khẩu
                 var token = UserRepository.GeneratePasswordResetToken(user);
                 HttpContext.Session.SetString(Constant.forgotTokenSessionKey, token);
-                // Gửi email thông báo đặt lại mật khẩu
                 await SendPasswordResetEmail(token);
-
-                // Hiển thị trang thông báo rằng email đã được gửi đi thành công
                 return RedirectToPage("ForgotPasswordConfirmation");
-
             }
-
             return Page();
         }
         private async Task SendPasswordResetEmail(string token)
