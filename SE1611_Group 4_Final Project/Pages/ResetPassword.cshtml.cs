@@ -1,15 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SE1611_Group_4_Final_Project.IRepository;
-using SE1611_Group_4_Final_Project.Models;
 using SE1611_Group_4_Final_Project.Utils;
 
 namespace SE1611_Group_4_Final_Project.Pages
 {
     public class ResetPasswordModel : PageModel
     {
-        private readonly IRepository<User> _userRepository;
-        public ResetPasswordModel(IRepository<User> userRepository)
+        private readonly IRepository<Models.User> _userRepository;
+        public ResetPasswordModel(IRepository<Models.User> userRepository)
         {
             _userRepository = userRepository;
         }
@@ -38,7 +37,7 @@ namespace SE1611_Group_4_Final_Project.Pages
             if (tokenCreatedTime.AddMinutes(Constant.expireForgotTokenMinute) < DateTime.Now) throw new Exception("Token has expired");
             else
             {
-                User user = _userRepository.GetDbSet().FirstOrDefault(u => u.Id.ToString().Equals(tokenSplit[0]));
+                Models.User user = _userRepository.GetDbSet().FirstOrDefault(u => u.Id.ToString().Equals(tokenSplit[0]));
                 if (!Input.Password.Equals(Input.ConfirmPassword))
                 {
                     ErrorMessage = "Password confirm not coincidental";

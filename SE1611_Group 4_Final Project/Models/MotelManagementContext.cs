@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SE1611_Group_4_Final_Project.Utils.AppSetting;
 
 namespace SE1611_Group_4_Final_Project.Models
 {
@@ -13,12 +14,8 @@ namespace SE1611_Group_4_Final_Project.Models
         {
         }
 
-        public virtual DbSet<BookingRequest> BookingRequests { get; set; } = null!;
-        public virtual DbSet<FurnitureStatus> FurnitureStatuses { get; set; } = null!;
         public virtual DbSet<Invoice> Invoices { get; set; } = null!;
-        public virtual DbSet<InvoiceType> InvoiceTypes { get; set; } = null!;
         public virtual DbSet<Notification> Notifications { get; set; } = null!;
-        public virtual DbSet<PaymentStatus> PaymentStatuses { get; set; } = null!;
         public virtual DbSet<Room> Rooms { get; set; } = null!;
         public virtual DbSet<RoomFurniture> RoomFurnitures { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
@@ -27,50 +24,12 @@ namespace SE1611_Group_4_Final_Project.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("server=210.211.127.85,6666;uid=motel;password=Motel@01032023!@#;database=MotelManagement");
+                optionsBuilder.UseSqlServer(ApplicationSetting.Instance.ConnectionString);
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<BookingRequest>(entity =>
-            {
-                entity.HasKey(e => e.RoomId)
-                    .HasName("PK__BookingR__3286393927F62C4F");
-
-                entity.ToTable("BookingRequest");
-
-                entity.Property(e => e.RoomId).ValueGeneratedNever();
-
-                entity.Property(e => e.Address).HasMaxLength(255);
-
-                entity.Property(e => e.Email).HasMaxLength(50);
-
-                entity.Property(e => e.IdentifyNumber).HasMaxLength(20);
-
-                entity.Property(e => e.Name).HasMaxLength(50);
-
-                entity.Property(e => e.Phone).HasMaxLength(20);
-
-                entity.Property(e => e.Accept).HasDefaultValue(false);
-
-                entity.HasOne(d => d.Room)
-                    .WithOne(p => p.BookingRequest)
-                    .HasForeignKey<BookingRequest>(d => d.RoomId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__BookingRe__RoomI__3A81B327");
-            });
-
-            modelBuilder.Entity<FurnitureStatus>(entity =>
-            {
-                entity.ToTable("FurnitureStatus");
-
-                entity.Property(e => e.Id).HasColumnName("ID");
-
-                entity.Property(e => e.Name).HasMaxLength(100);
-            });
-
             modelBuilder.Entity<Invoice>(entity =>
             {
                 entity.ToTable("Invoice");
@@ -83,48 +42,21 @@ namespace SE1611_Group_4_Final_Project.Models
 
                 entity.Property(e => e.Description).HasMaxLength(255);
 
+                entity.Property(e => e.From).HasColumnType("date");
+
                 entity.Property(e => e.GrandTotal).HasColumnType("money");
 
                 entity.Property(e => e.PaidDate).HasColumnType("datetime");
 
-                entity.Property(e => e.PaymentStatusId).HasColumnName("PaymentStatusID");
-
-                entity.Property(e => e.RoomId).HasColumnName("RoomID");
-
-                entity.Property(e => e.RoomName).HasMaxLength(20);
-
                 entity.Property(e => e.Title).HasMaxLength(255);
 
-                entity.Property(e => e.TypeId).HasColumnName("TypeID");
+                entity.Property(e => e.To).HasColumnType("date");
 
-                entity.Property(e => e.UserName).HasMaxLength(50);
-
-                entity.HasOne(d => d.PaymentStatus)
+                entity.HasOne(d => d.User)
                     .WithMany(p => p.Invoices)
-                    .HasForeignKey(d => d.PaymentStatusId)
-                    .OnDelete(DeleteBehavior.SetNull)
-                    .HasConstraintName("FK__Invoice__Payment__286302EC");
-
-                entity.HasOne(d => d.Room)
-                    .WithMany(p => p.Invoices)
-                    .HasForeignKey(d => d.RoomId)
-                    .OnDelete(DeleteBehavior.SetNull)
-                    .HasConstraintName("FK__Invoice__RoomID__29572725");
-
-                entity.HasOne(d => d.Type)
-                    .WithMany(p => p.Invoices)
-                    .HasForeignKey(d => d.TypeId)
+                    .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK__Invoice__TypeID__267ABA7A");
-            });
-
-            modelBuilder.Entity<InvoiceType>(entity =>
-            {
-                entity.ToTable("InvoiceType");
-
-                entity.Property(e => e.Id).HasColumnName("ID");
-
-                entity.Property(e => e.Name).HasMaxLength(50);
+                    .HasConstraintName("FK_Invoice_User");
             });
 
             modelBuilder.Entity<Notification>(entity =>
@@ -144,15 +76,6 @@ namespace SE1611_Group_4_Final_Project.Models
                 entity.Property(e => e.Title).HasMaxLength(255);
             });
 
-            modelBuilder.Entity<PaymentStatus>(entity =>
-            {
-                entity.ToTable("PaymentStatus");
-
-                entity.Property(e => e.Id).HasColumnName("ID");
-
-                entity.Property(e => e.Name).HasMaxLength(100);
-            });
-
             modelBuilder.Entity<Room>(entity =>
             {
                 entity.ToTable("Room");
@@ -169,11 +92,24 @@ namespace SE1611_Group_4_Final_Project.Models
 
                 entity.Property(e => e.Price).HasColumnType("money");
 
+                entity.HasMany(d => d.Invoices)
+                    .WithMany(p => p.Rooms)
+                    .UsingEntity<Dictionary<string, object>>(
+                        "RoomInvoice",
+                        l => l.HasOne<Invoice>().WithMany().HasForeignKey("InvoiceId").HasConstraintName("FK_RoomInvoice_Invoice"),
+                        r => r.HasOne<Room>().WithMany().HasForeignKey("RoomId").HasConstraintName("FK_RoomInvoice_Room"),
+                        j =>
+                        {
+                            j.HasKey("RoomId", "InvoiceId");
+
+                            j.ToTable("RoomInvoice");
+                        });
+
                 entity.HasMany(d => d.Notifications)
                     .WithMany(p => p.Rooms)
                     .UsingEntity<Dictionary<string, object>>(
                         "RoomNotification",
-                        l => l.HasOne<Notification>().WithMany().HasForeignKey("NotificationId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Room_Noti__Notif__2D27B809"),
+                        l => l.HasOne<Notification>().WithMany().HasForeignKey("NotificationId").HasConstraintName("FK__Room_Noti__Notif__2D27B809"),
                         r => r.HasOne<Room>().WithMany().HasForeignKey("RoomId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Room_Noti__RoomI__2C3393D0"),
                         j =>
                         {
@@ -199,18 +135,10 @@ namespace SE1611_Group_4_Final_Project.Models
 
                 entity.Property(e => e.RoomId).HasColumnName("RoomID");
 
-                entity.Property(e => e.StatusId).HasColumnName("StatusID");
-
                 entity.HasOne(d => d.Room)
                     .WithMany(p => p.RoomFurnitures)
                     .HasForeignKey(d => d.RoomId)
                     .HasConstraintName("FK__RoomFurni__RoomI__1B0907CE");
-
-                entity.HasOne(d => d.Status)
-                    .WithMany(p => p.RoomFurnitures)
-                    .HasForeignKey(d => d.StatusId)
-                    .OnDelete(DeleteBehavior.SetNull)
-                    .HasConstraintName("FK__RoomFurni__Statu__1A14E395");
             });
 
             modelBuilder.Entity<User>(entity =>
@@ -228,8 +156,6 @@ namespace SE1611_Group_4_Final_Project.Models
 
                 entity.Property(e => e.Email).HasMaxLength(50);
 
-                entity.Property(e => e.From).HasColumnType("datetime");
-
                 entity.Property(e => e.IdentifyNumber).HasMaxLength(20);
 
                 entity.Property(e => e.IsAdmin).HasDefaultValueSql("((0))");
@@ -239,16 +165,6 @@ namespace SE1611_Group_4_Final_Project.Models
                 entity.Property(e => e.Password).HasMaxLength(255);
 
                 entity.Property(e => e.Phone).HasMaxLength(20);
-
-                entity.Property(e => e.RoomId).HasColumnName("RoomID");
-
-                entity.Property(e => e.To).HasColumnType("datetime");
-
-                entity.HasOne(d => d.Room)
-                    .WithMany(p => p.Users)
-                    .HasForeignKey(d => d.RoomId)
-                    .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK__User__RoomID__21B6055D");
             });
 
             OnModelCreatingPartial(modelBuilder);

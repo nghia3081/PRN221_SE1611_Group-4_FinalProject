@@ -1,0 +1,67 @@
+﻿@page
+@model SE1611_Group_4_Final_Project.Pages.Room.IndexModel
+@{
+}
+<style>
+    .room-card {
+        transition: all linear 0.5s
+    }
+</style>
+<script>
+    function viewDetail(card) {
+
+        var cardNode = card.parentNode.parentNode.parentNode
+        var roomName = cardNode.getElementsByTagName('h6')[0].innerText;
+        var spanTag = cardNode.getElementsByTagName('span')
+        var pTag = cardNode.getElementsByTagName('p')
+        var roomArea = spanTag[0].innerText;
+        var roomPrice = spanTag[1].innerText;
+        var roomDescription = pTag[0];
+        var roomAddress = pTag[1];
+
+
+        var colNode = cardNode.parentNode.parentNode.parentNode
+        console.log(colNode);
+        if (colNode.classList.contains('col-md-4')) {
+            colNode.classList.add('col-md-6')
+            colNode.classList.remove('col-md-4')
+            roomDescription.removeAttribute('hidden');
+            roomAddress.removeAttribute('hidden');
+        } else {
+            colNode.classList.add('col-md-4')
+            colNode.classList.remove('col-md-6')
+            roomDescription.setAttribute('hidden', true);
+            roomAddress.setAttribute('hidden', true);
+        }
+
+    }
+</script>
+<div class="row g-5">
+    @foreach (var room in Model.Rooms)
+    {
+        <div class="col-md-4 room-card">
+            <div class="row">
+                <div class="card">
+                    <div class="card-header p-3 text-center">
+                        <div class="icon icon-shape icon-lg bg-gradient-primary shadow text-center border-radius-lg">
+                            <i class="fas fa-landmark opacity-10"></i>
+                        </div>
+                    </div>
+                    <div class="card-body pt-0 p-3 text-center">
+                        <h6 class="text-center mb-0">Name: @room.Name</h6>
+                        <span class="text-xs">@room.Area m2</span><br />
+                        <span class="text-xs">Is Available: @room.IsAvailable</span>
+                        <hr class="horizontal dark my-3">
+                        <span class="mb-0">Price: $@room.Price.ToString("#.#")</span>
+                        <p hidden style="text-align:justify"><b>Description:</b> @room.Description</p>
+                        <p hidden style="text-align:justify"><b>Address:</b> @room.Address</p>
+                        <div class="row">
+                            <div class="col-md-6">  <button class="btn" onclick="viewDetail(this)">View detail</button></div>
+                            <div class="col-md-6">     <a asp-page="/Room/Form" asp-route-id="@room.Id" class="btn">Edit</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

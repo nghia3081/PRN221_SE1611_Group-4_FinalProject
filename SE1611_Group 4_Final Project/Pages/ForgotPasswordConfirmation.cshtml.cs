@@ -1,14 +1,13 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SE1611_Group_4_Final_Project.IRepository;
-using SE1611_Group_4_Final_Project.Models;
 using SE1611_Group_4_Final_Project.Utils;
 
 namespace SE1611_Group_4_Final_Project.Pages
 {
     public class ForgotPasswordConfirmationModel : PageModel
     {
-        private readonly IRepository<User> _userRepository;
-        public ForgotPasswordConfirmationModel(IRepository<User> userRepository)
+        private readonly IRepository<Models.User> _userRepository;
+        public ForgotPasswordConfirmationModel(IRepository<Models.User> userRepository)
         {
             _userRepository = userRepository;
         }

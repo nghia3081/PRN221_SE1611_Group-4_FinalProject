@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SE1611_Group_4_Final_Project.IRepository;
-using SE1611_Group_4_Final_Project.Models;
 
 namespace SE1611_Group_4_Final_Project.Pages
 {
@@ -13,9 +12,9 @@ namespace SE1611_Group_4_Final_Project.Pages
         [BindProperty]
         public string Password { get; set; }
         public string ErrorMessage { get; set; }
-        private readonly IRepository<User> _userRepository;
+        private readonly IRepository<Models.User> _userRepository;
         private readonly ILogger<LoginModel> _logger;
-        public LoginModel(ILogger<LoginModel> logger, IRepository<User> userRepository)
+        public LoginModel(ILogger<LoginModel> logger, IRepository<Models.User> userRepository)
         {
             _userRepository = userRepository;
             _logger = logger;
@@ -33,8 +32,10 @@ namespace SE1611_Group_4_Final_Project.Pages
                 HttpContext.Session.SetString("email", Email);
                 if (Request.Form["inputRememberPassword"] == "on")
                 {
-                    CookieOptions option = new CookieOptions();
-                    option.Expires = DateTime.Now.AddDays(30);
+                    CookieOptions option = new CookieOptions
+                    {
+                        Expires = DateTime.Now.AddDays(30)
+                    };
                     Response.Cookies.Append("email", Email, option);
                 }
                 return RedirectToPage("Index");

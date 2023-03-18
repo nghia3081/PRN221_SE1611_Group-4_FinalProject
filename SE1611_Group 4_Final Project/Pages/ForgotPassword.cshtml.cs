@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using SE1611_Group_4_Final_Project.Models;
 using SE1611_Group_4_Final_Project.Repository.Interfaces;
 using System.Text.Encodings.Web;
 using System.ComponentModel.DataAnnotations;
@@ -14,9 +13,9 @@ namespace SE1611_Group_4_Final_Project.Pages
     public class ForgotPasswordModel : PageModel
     {
         private readonly ILogger<ForgotPasswordModel> _logger;
-        private IRepository<User> UserRepository;
+        private IRepository<Models.User> UserRepository;
         private readonly IEmailSender _emailSender;
-        public ForgotPasswordModel(ILogger<ForgotPasswordModel> logger, IEmailSender emailSender, IRepository<User> repository)
+        public ForgotPasswordModel(ILogger<ForgotPasswordModel> logger, IEmailSender emailSender, IRepository<Models.User> repository)
         {
             UserRepository = repository;    
             _logger = logger; 
