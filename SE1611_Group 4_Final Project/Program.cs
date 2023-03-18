@@ -1,10 +1,10 @@
 using SE1611_Group_4_Final_Project.Utils;
-using SendGrid.Extensions.DependencyInjection;
-using Microsoft.Extensions.Configuration;
+using SE1611_Group_4_Final_Project.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddSignalR();
 builder.Services.AddMvc(options => options.EnableEndpointRouting = false);
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSession();
@@ -21,6 +21,11 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseSession();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapRazorPages();
+    endpoints.MapHub<ChatHub>("/chatHub");
+});
 app.UseMvc();
 app.UseAuthentication();
 app.UseAuthorization();

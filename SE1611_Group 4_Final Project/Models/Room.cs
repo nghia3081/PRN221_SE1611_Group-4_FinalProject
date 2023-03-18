@@ -7,9 +7,8 @@ namespace SE1611_Group_4_Final_Project.Models
     {
         public Room()
         {
-            Invoices = new HashSet<Invoice>();
             RoomFurnitures = new HashSet<RoomFurniture>();
-            Users = new HashSet<User>();
+            Invoices = new HashSet<Invoice>();
             Notifications = new HashSet<Notification>();
         }
 
@@ -19,12 +18,11 @@ namespace SE1611_Group_4_Final_Project.Models
         public int Area { get; set; }
         public string Address { get; set; } = null!;
         public bool? IsAvailable { get; set; }
+        public string? Description { get; set; }
 
-        public virtual BookingRequest? BookingRequest { get; set; }
-        public virtual ICollection<Invoice> Invoices { get; set; }
         public virtual ICollection<RoomFurniture> RoomFurnitures { get; set; }
-        public virtual ICollection<User> Users { get; set; }
 
+        public virtual ICollection<Invoice> Invoices { get; set; }
         public virtual ICollection<Notification> Notifications { get; set; }
     }
 }
