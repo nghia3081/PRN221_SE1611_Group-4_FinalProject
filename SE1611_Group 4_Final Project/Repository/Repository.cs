@@ -61,7 +61,7 @@ namespace SE1611_Group_4_Final_Project.Repository
         }
         public string GeneratePasswordResetToken(User user)
         {
-            if (typeof(T) != typeof(User)) throw new Exception("Only for user");
+            //if (typeof(T) != typeof(User)) throw new Exception("Only for user");
             User u = _entities.Find(user.Id) as User ?? throw new Exception("Not found user");
             string token = u.Id.ToString();
             token += $":{DateTime.Now.Ticks}:0";
@@ -69,7 +69,7 @@ namespace SE1611_Group_4_Final_Project.Repository
         }
         public User FindUserByEmail(string email)
         {
-            return _motelManagementContext.Users.FirstOrDefault(x => x.Email == email) ?? throw new NullReferenceException("Not found user");
+            return _motelManagementContext.Users.FirstOrDefault(x => x.Email == email);
         }
 
         public User FindUserByEmailandPassword(string email, string password)

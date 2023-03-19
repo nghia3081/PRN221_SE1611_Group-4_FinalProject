@@ -34,12 +34,14 @@ namespace SE1611_Group_4_Final_Project.Repository
             mail.IsBodyHtml = true;
             mail.BodyEncoding = UTF8Encoding.UTF8;
 
-            SmtpClient smtp = new SmtpClient(this._smtpRemote, this._smtpPort);
-            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-            smtp.EnableSsl =true;
-            smtp.UseDefaultCredentials = false;
-            smtp.Credentials = new NetworkCredential(this._from, this._psw);
-            smtp.Timeout = 60000;
+            SmtpClient smtp = new SmtpClient(this._smtpRemote, this._smtpPort)
+            {
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                EnableSsl = true,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(this._from, this._psw),
+                Timeout = 60000
+            };
             await Task.Run(() => { smtp.Send(mail); });
         }
     }

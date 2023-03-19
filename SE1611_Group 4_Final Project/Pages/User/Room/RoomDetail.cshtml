@@ -1,0 +1,86 @@
+﻿@page "/User/Room/RoomDetail/{id}"
+@using SE1611_Group_4_Final_Project.Models;
+@model RoomDetailModel
+@{
+}
+
+<div class="row">
+    <div class="col-md-8 mt-4">
+        <div class="card">
+            <div class="card-header pb-0 px-3">
+                <h6 class="mb-0">Room Information</h6>
+            </div>
+            <div class="card-body p-7">
+
+                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    </div>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img src="https://images.unsplash.com/photo-1537511446984-935f663eb1f4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1920&q=80" class="d-block w-100" alt="...">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1920&q=80" class="d-block w-100" alt="...">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="https://images.unsplash.com/photo-1552793494-111afe03d0ca?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1920&q=80" class="d-block w-100" alt="...">
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+                <hr class="horizontal gray-light my-4">
+                <ul class="list-group">
+                    <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">Room Name:</strong> &nbsp;  @Model.Room.Name</li>
+                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Area:</strong>&nbsp; @Model.Room.Area m²</li>
+                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Price:</strong>&nbsp; @Model.Room.Price $</li>
+                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Location:</strong>&nbsp; @Model.Room.Address</li>
+                </ul>
+                <p class="text-sm">
+                    @*description*@
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mt-4">
+        <div class="card h-100 mb-4">
+            <div class="card-header pb-0 px-3">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6 class="mb-0">Your suggest Room</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body pt-4 p-3">
+                <h6 class="text-uppercase text-body text-xs font-weight-bolder mb-3">Related Room</h6>
+                <ul class="list-group">
+                    @foreach(var item in Model.SuggestedRooms){
+                    <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                        <div class="d-flex align-items-center">
+                            <div class="d-flex flex-column">
+                                <h6 class="mb-1 text-dark text-sm">@item.Name</h6>
+                                    <a class="text-xs text-sm font-weight-bold mb-0 icon-move-right mt-auto" met asp-page="/User/Room/RoomDetail" asp-route-id="@item.Id">
+                                        Read More
+                                        <i class="fas fa-arrow-right text-sm ms-1" aria-hidden="true"></i>
+                                    </a>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
+                                @item.Price $
+                        </div>
+                    </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

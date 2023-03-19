@@ -1,0 +1,138 @@
+﻿@page
+@model SE1611_Group_4_Final_Project.Pages.RoomPageModel
+@{
+}
+
+<div class="row">
+    <div class="col-lg-12 col-sm-6">
+        <div class="card">
+            <div class="card-body" style="padding : 0;">
+                <img src="~/img/Background.png" alt="background" class="card-img" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mt-4">
+    <div class="col-lg-12 col-sm-6">
+        <div class="card">
+            <div class="card-body p-5">
+                <form method="get">
+                    <div class="row">
+
+                        <div class="col-3 py-3 ps-0">
+                            <div class="dropdown">
+                                <p class="text-sm mb-0 text-capitalize font-weight-bold">Address</p>
+                                <select name="filterAddress" id="filterAddress" asp-items="@Model.FilterAddress" class="form-control">
+                                    <option value="">All</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-3 py-3 ps-0">
+                            <div class="dropdown">
+                                <p class="text-sm mb-0 text-capitalize font-weight-bold">Area</p>
+                                <select name="filterArea" id="filterArea" asp-items="@Model.FilterArea" class="form-control">
+                                    <option value="">All</option>
+                                    <option value="1">0 - 40m²</option>
+                                    <option value="2">40 - 100m²</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-3 py-3 ps-0">
+                            <div class="dropdown">
+                                <p class="text-sm mb-0 text-capitalize font-weight-bold">Price</p>
+                                <select name="filterPrice" id="filterPrice" asp-items="@Model.FilterPrice" class="form-control">
+                                    <option value="">All</option>
+                                    <option value="1">0 - 2.000.000 VND</option>
+                                    <option value="2">2.000.000 VND - 10.000.000 VND</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-3 py-3 ps-0 text-end">
+                            <button class="btn bg-gradient-dark mb-0" type="submit">Filter</button>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@foreach (var item in Model.Rooms)
+{
+    <div class="row mt-4">
+        <div class="col-lg-12 mb-lg-0 mb-4">
+            <div class="card">
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="d-flex flex-column h-100">
+                                <h5 class="font-weight-bolder">@item.Name</h5>
+                                <p class="mb-1 pt-2 text-bold">@item.Address</p>
+                                <p class="mb-5">@item.Price</p>
+                                <a class="text-body text-sm font-weight-bold mb-0 icon-move-right mt-auto" met asp-page="/User/Room/RoomDetail" asp-route-id="@item.Id">
+                                    Read More
+                                    <i class="fas fa-arrow-right text-sm ms-1" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-5 ms-auto text-center mt-5 mt-lg-0">
+                            <div class="bg-gradient-primary border-radius-lg h-100">
+                                <img src="~/img/shapes/waves-white.svg" class="position-absolute h-100 w-50 top-0 d-lg-block d-none" alt="waves">
+                                <div class="position-relative d-flex align-items-center justify-content-center h-100">
+                                    <img class="w-100 position-relative z-index-2 pt-4" src="wwwroot/img/room/{roomId}" alt="rocket">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if(Model.HasPreviousPage || Model.HasNextPage){
+    <nav aria-label="Page navigation example" class="mt-4">
+        <ul class="pagination justify-content-center">
+            @if(Model.HasPreviousPage)
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-page="/User/Room/RoomPage" asp-route-pageIndex="1" aria-label="First">
+                        <i class="fa fa-angle-left"></i>
+                        <span class="sr-only">First</span>
+                    </a>
+                </li>
+            }
+            @if (Model.PageIndex > 5)
+            {
+                <li class="page-item"><a asp-page="/User/Room/RoomPage" asp-route-pageIndex="@(Model.PageIndex - 5)" class="page-link">...</a></li>
+            }
+
+            @for (int i = Math.Max(1, Model.PageIndex - 2); i <= Math.Min(Model.TotalPages, Model.PageIndex + 2); i++)
+            {
+                if (i == Model.PageIndex)
+                {
+                    <li class="page-item active"><a class="page-link">@i</a></li>
+                }
+                else
+                {
+                    <li class="page-item"><a class="page-link" asp-page="/User/Room/RoomPage" asp-route-pageIndex="@i">@i</a></li>
+                }
+            }
+            @if (Model.PageIndex < Model.TotalPages - 4)
+            {
+                <li class="page-item"><a asp-page="/User/Room/RoomPage" asp-route-pageIndex="@(Model.PageIndex + 5)" class="page-link">...</a></li>
+            }
+            @if (Model.HasNextPage)
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-page="/User/Room/RoomPage" asp-route-pageIndex="@Model.TotalPages" aria-label="Last">
+                        <i class="fa fa-angle-right"></i>
+                        <span class="sr-only">Last</span>
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
+}
+

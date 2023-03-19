@@ -16,10 +16,11 @@ namespace SE1611_Group_4_Final_Project.Pages
 {
     public class IndexModel : PageModel
     {
+        private readonly IRepository<Models.Invoice> repository;
         private readonly ILogger<IndexModel> _logger;
-        private readonly IRepository<Room> _roomRepository;
+        private readonly IRepository<Models.Room> _roomRepository;
         [BindProperty]
-        public User user { get; set; }
+        public Models.User user { get; set; }
         [BindProperty]
         public InputModel Input { get; set; }
         public class InputModel
@@ -30,13 +31,13 @@ namespace SE1611_Group_4_Final_Project.Pages
         public int minArea { get; set; }
         public int maxArea { get; set; }
         public string address { get; set; }
-        public List<Room> Rooms { get; set; }
+        public List<Models.Room> Rooms { get; set; }
         public SelectList FilterAddress { get; set; }
         public SelectList FilterArea { get; set; }
         public SelectList FilterPrice { get; set; }
-        public List<Room> SuggestedRooms { get; set; }
+        public List<Models.Room> SuggestedRooms { get; set; }
 
-        public IndexModel(ILogger<IndexModel> logger, IRepository<Room> RoomRepository)
+        public IndexModel(ILogger<IndexModel> logger, IRepository<Models.Room> RoomRepository)
         {
             _roomRepository = RoomRepository;
             _logger = logger;
@@ -50,7 +51,7 @@ namespace SE1611_Group_4_Final_Project.Pages
             string jsonUser = HttpContext.Session.GetString("User");
             if (!string.IsNullOrEmpty(jsonUser))
             {
-                user = JsonConvert.DeserializeObject<User>(jsonUser);
+                user = JsonConvert.DeserializeObject<Models.User>(jsonUser);
             }
             string json = JsonConvert.SerializeObject(SuggestedRooms);
             HttpContext.Session.SetString("SuggestedRooms", json);
@@ -59,12 +60,12 @@ namespace SE1611_Group_4_Final_Project.Pages
         public IActionResult OnGetLogout()
         {
             HttpContext.Session.Remove("User");
-            return RedirectToPage("Index");
+            return RedirectToPage("/Index");
         }
 
         public IActionResult OnGetLogin()
         {
-            return RedirectToPage("Login");
+            return RedirectToPage("/User/Auth/Login");
         }
     }
 }

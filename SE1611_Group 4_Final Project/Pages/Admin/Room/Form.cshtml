@@ -1,0 +1,74 @@
+﻿@page
+@model SE1611_Group_4_Final_Project.Pages.Room.FormModel
+@{
+}
+<form asp-action="POST" enctype="multipart/form-data">
+    <div class="form-group">
+        <div class="input-group">
+            <input asp-for="@Model.Room.Id" hidden />
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="form-control-label" asp-for="@Model.Room.Name"></label>
+        <div class="input-group">
+            <input asp-for="@Model.Room.Name" class="form-control" />
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="form-control-label" asp-for="@Model.Room.Price"></label>
+        <div class="input-group">
+            <input asp-for="@Model.Room.Price" class="form-control" />
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="form-control-label" asp-for="@Model.Room.Area"></label>
+        <div class="input-group">
+            <input asp-for="@Model.Room.Area" class="form-control" />
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="form-control-label" asp-for="@Model.Room.Address"></label>
+        <div class="input-group">
+
+            <input asp-for="@Model.Room.Address" class="form-control" />
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="form-control-label" asp-for="@Model.Room.IsAvailable"></label>
+        <div class="input-group">
+
+            <input asp-for="@Model.Room.IsAvailable" type="checkbox" class="form-check-input" />
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="form-control-label" asp-for="@Model.Room.Description"></label>
+        <div class="input-group">
+
+            <textarea asp-for="@Model.Room.Description" class="form-control" ></textarea>
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="form-control-label">Room Images</label>
+        <div class="input-group">
+
+            <input type="file" accept="image/*" multiple asp-for="@Model.FormFiles" class="form-control" />
+
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="input-group">
+
+            <input type="submit" class="form-control" value="Save"/>
+
+        </div>
+    </div>
+
+
+</form>

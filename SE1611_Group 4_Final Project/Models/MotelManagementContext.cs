@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SE1611_Group_4_Final_Project.Utils.AppSetting;
 
 namespace SE1611_Group_4_Final_Project.Models
 {
@@ -23,48 +24,12 @@ namespace SE1611_Group_4_Final_Project.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("server=210.211.127.85,6666;uid=motel;password=Motel@01032023!@#;database=MotelManagement");
+                optionsBuilder.UseSqlServer(ApplicationSetting.Instance.ConnectionString);
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<BookingRequest>(entity =>
-            {
-                entity.HasKey(e => e.RoomId)
-                    .HasName("PK__BookingR__3286393927F62C4F");
-
-                entity.ToTable("BookingRequest");
-
-                entity.Property(e => e.RoomId).ValueGeneratedNever();
-
-                entity.Property(e => e.Address).HasMaxLength(255);
-
-                entity.Property(e => e.Email).HasMaxLength(50);
-
-                entity.Property(e => e.IdentifyNumber).HasMaxLength(20);
-
-                entity.Property(e => e.Name).HasMaxLength(50);
-
-                entity.Property(e => e.Phone).HasMaxLength(20);
-
-                entity.HasOne(d => d.Room)
-                    .WithOne(p => p.BookingRequest)
-                    .HasForeignKey<BookingRequest>(d => d.RoomId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__BookingRe__RoomI__3A81B327");
-            });
-
-            modelBuilder.Entity<FurnitureStatus>(entity =>
-            {
-                entity.ToTable("FurnitureStatus");
-
-                entity.Property(e => e.Id).HasColumnName("ID");
-
-                entity.Property(e => e.Name).HasMaxLength(100);
-            });
-
             modelBuilder.Entity<Invoice>(entity =>
             {
                 entity.ToTable("Invoice");

@@ -1,0 +1,47 @@
+﻿@page
+@model SE1611_Group_4_Final_Project.Pages.Notification.NotificationFormModel
+@{
+}
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header pb-0">
+                    <h6>Notification table <a asp-page="Index"><i class="fa fa-arrow-left"></i></a></h6>
+                </div>
+                <div class="card-body px-0 pt-0 pb-2">
+                    <div class=" p-5">
+                        <form asp-action="POST">
+                            <input asp-for="@Model.Notification.Id" hidden="true" />
+                            <input asp-for="@Model.Notification.CreatedDate" hidden="true" />
+                            <label>Title</label>
+                            <div class="mb-3">
+                                <input asp-for="@Model.Notification.Title" class="form-control" placeholder="Title" />
+                            </div>
+                            <label>Description</label>
+                            <div class="mb-3">
+                                <input asp-for="@Model.Notification.Description" class="form-control" placeholder="Description">
+                            </div>
+                            <label>Auto Hide Notification Date</label>
+                            <div class="mb-3">
+                                <input asp-for="@Model.Notification.HideDate" type="date" class="form-control" placeholder="Auto Hide Notification Date">
+                            </div>
+
+                            <div class="mb-3">
+                                <input class="border-1" asp-for="@Model.Notification.IsUse" type="checkbox" class="form-check-input" id="fcustomCheck1" placeholder="Is Use"> <label>Using</label>
+                            </div>
+                            <label>Show for room</label>
+                            <div class="mb-3">
+                                <select name="RoomSelected" asp-items="@Model.RoomSelect" class="form-control" multiple data-live-search="true">
+                                </select>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn bg-gradient-info w-100 mt-4 mb-0">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

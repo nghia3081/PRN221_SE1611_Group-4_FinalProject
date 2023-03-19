@@ -15,7 +15,7 @@ namespace SE1611_Group_4_Final_Project.Models
         public string? Description { get; set; }
         public DateTime? CreatedDate { get; set; }
         public DateTime? HideDate { get; set; }
-        public bool? IsUse { get; set; }
+        public bool IsUse { get; set; }
 
         public virtual ICollection<Room> Rooms { get; set; }
     }

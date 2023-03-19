@@ -1,0 +1,88 @@
+﻿@page
+@model UserBillingModel
+@{
+}
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-body p-5">
+                    <form method="get">
+                        <div class="row">
+
+                            <div class="col-3 py-3 ps-0">
+                                <div class="dropdown">
+                                    <p class="text-sm mb-0 text-capitalize font-weight-bold">Month</p>
+                                    <select name="filterMonth" id="filterMonth" asp-items="@Model.FilterMonth" class="form-control">
+                                        <option value="">All</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-3 py-3 ps-0">
+                                <div class="dropdown">
+                                    <p class="text-sm mb-0 text-capitalize font-weight-bold">Year</p>
+                                    <select name="filterYear" id="filterYear" asp-items="@Model.FilterYear" class="form-control">
+                                        <option value="">All</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-3 py-3 ps-0 text-end">
+                                <button class="btn bg-gradient-dark mb-0" type="submit">Filter</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="card mb-4">
+                <div class="card-header pb-0">
+                    <h6>Invoices</h6>
+                </div>
+                <div class="card-body px-0 pt-0 pb-2">
+                    <div class="table-responsive p-0">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Title</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Created Date</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Description</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Total Amount</th>
+                                    <th class="text-secondary opacity-7"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    @foreach (var item in Model.Invoices)
+                                    {
+                                        <td class="align-middle text-center">
+                                            <span class="text-secondary text-xs font-weight-bold">@item.Title</span>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <span class="text-secondary text-xs font-weight-bold">@item.CreatedDate.Date.ToShortDateString()</span>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <span class="text-secondary text-xs font-weight-bold">@item.Description</span>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <span class="text-secondary text-xs font-weight-bold">@item.Status</span>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <span class="text-secondary text-xs font-weight-bold">@item.GrandTotal $</span>
+                                        </td>
+                                        <td class="align-middle">
+                                            <a asp-page="/User/Invoice/InvoiceRoomDetail" asp-route-id="@item.Id" class="text-black text-decoration-underline font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Detail Bill">
+                                                Detail
+                                            </a>
+                                        </td>
+                                    }
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
