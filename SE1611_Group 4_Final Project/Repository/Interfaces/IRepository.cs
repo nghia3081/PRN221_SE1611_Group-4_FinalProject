@@ -25,5 +25,7 @@ namespace SE1611_Group_4_Final_Project.IRepository
         public List<Invoice> FilterInvoices(int month, int year);
         public List<Room> GetRoomsbyInvoice(Guid id);
         public Invoice GetInvoice(Guid id);
-	}
+        public void AddRoomInvoice(Guid roomId, Guid invoiceId);
+
+    }
 }

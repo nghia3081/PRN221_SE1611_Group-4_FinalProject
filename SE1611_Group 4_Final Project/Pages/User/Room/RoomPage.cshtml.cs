@@ -71,7 +71,7 @@ namespace SE1611_Group_4_Final_Project.Pages
             }
             address = filterAddress;
             PageIndex = pageIndex;
-            Rooms = _roomRepository.FilterRooms(minPrice, maxPrice, minArea, maxArea, address, PageIndex, PageSize);
+            Rooms = _roomRepository.FilterRooms(minPrice, maxPrice, minArea, maxArea, address, PageIndex, PageSize).Where(x => x.IsAvailable == true).ToList();
             TotalPages = _roomRepository.GetDbSet().Count() / PageSize + (_roomRepository.GetDbSet().Count() % PageSize > 0 ? 1 : 0);
             SuggestedRooms = _roomRepository.FilterRooms(minPrice, maxPrice, minArea, maxArea, address, pageIndex, PageSize).Take(5).ToList();
             string json = JsonConvert.SerializeObject(SuggestedRooms);

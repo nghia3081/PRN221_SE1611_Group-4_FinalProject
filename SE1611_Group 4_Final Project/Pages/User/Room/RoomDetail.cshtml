@@ -1,5 +1,8 @@
 ﻿@page "/User/Room/RoomDetail/{id}"
 @using SE1611_Group_4_Final_Project.Models;
+@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor;
+
 @model RoomDetailModel
 @{
 }
@@ -45,9 +48,39 @@
                     <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Price:</strong>&nbsp; @Model.Room.Price $</li>
                     <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Location:</strong>&nbsp; @Model.Room.Address</li>
                 </ul>
-                <p class="text-sm">
-                    @*description*@
-                </p>
+                <ul class="list-group">
+                    <li class="list-group-item border-0 ps-0 pt-0 text-sm">
+                        <div class="card-header">
+                            <strong class="text-dark">DESCRIPTION</strong>
+                        </div>
+                        @Model.Room.Description
+                    </li>
+
+                    <div class="row">
+                        <div class="col-8"></div>
+                        <div class="col-4 mt-4">
+                            @if (String.IsNullOrEmpty(HttpContextAccessor.HttpContext.Session.GetString("User")))
+                            {
+                                <form method="get" asp-page="/User/Auth/Login">
+                                    <button type="submit" class="btn bg-gradient-primary ">Book</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <form method="post" asp-page="/User/Room/RoomDetail" asp-route-id="@Model.Room.Id">
+                                    @if (Model.Room.IsAvailable == true)
+                                    {
+                                    <button type="submit" class="btn bg-gradient-primary">Book</button>
+                                    }
+                                    else
+                                    {
+                                    <button type="submit" class="btn bg-gradient-primary" disabled>Booked</button>
+                                    }
+                                </form>
+                            }
+                        </div>
+                    </div>
+                </ul>
             </div>
         </div>
     </div>
@@ -63,21 +96,22 @@
             <div class="card-body pt-4 p-3">
                 <h6 class="text-uppercase text-body text-xs font-weight-bolder mb-3">Related Room</h6>
                 <ul class="list-group">
-                    @foreach(var item in Model.SuggestedRooms){
-                    <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                        <div class="d-flex align-items-center">
-                            <div class="d-flex flex-column">
-                                <h6 class="mb-1 text-dark text-sm">@item.Name</h6>
+                    @foreach (var item in Model.SuggestedRooms)
+                    {
+                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                            <div class="d-flex align-items-center">
+                                <div class="d-flex flex-column">
+                                    <h6 class="mb-1 text-dark text-sm">@item.Name</h6>
                                     <a class="text-xs text-sm font-weight-bold mb-0 icon-move-right mt-auto" met asp-page="/User/Room/RoomDetail" asp-route-id="@item.Id">
                                         Read More
                                         <i class="fas fa-arrow-right text-sm ms-1" aria-hidden="true"></i>
                                     </a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
+                            <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
                                 @item.Price $
-                        </div>
-                    </li>
+                            </div>
+                        </li>
                     }
                 </ul>
             </div>

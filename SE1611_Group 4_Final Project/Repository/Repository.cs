@@ -153,5 +153,18 @@ namespace SE1611_Group_4_Final_Project.Repository
 		{
 			return _motelManagementContext.Invoices.Include(x => x.User).Where(x => x.Id == id).FirstOrDefault();
 		}
+        public void AddRoomInvoice(Guid roomId, Guid invoiceId)
+        {
+            var roomIdList = new List<Guid>();
+            using (var command = _motelManagementContext.Database.GetDbConnection().CreateCommand())
+            {
+                command.CommandText = $"INSERT INTO RoomInvoice (RoomId,InvoiceId) VALUES ('{roomId.ToString()}', '{invoiceId.ToString()}');";
+                command.CommandType = CommandType.Text;
+
+                _motelManagementContext.Database.OpenConnectionAsync();
+
+                command.ExecuteNonQueryAsync();
+            }
+        }
 	}
 }

@@ -21,7 +21,9 @@ namespace SE1611_Group_4_Final_Project.Utils
             Created = 1,
             Approved,
             UserConfirmedPaid,
-            ManagerConfirmedPaid
+            ManagerConfirmedPaid,
+            Paid,
+            UnPaid
         }
         public enum InvoiceType
         {
