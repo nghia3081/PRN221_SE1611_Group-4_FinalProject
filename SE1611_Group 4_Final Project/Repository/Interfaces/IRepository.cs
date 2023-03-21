@@ -1,8 +1,6 @@
 ﻿using SE1611_Group_4_Final_Project.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using SendGrid.Helpers.Mail;
-using MimeKit.Encodings;
 
 namespace SE1611_Group_4_Final_Project.IRepository
 {

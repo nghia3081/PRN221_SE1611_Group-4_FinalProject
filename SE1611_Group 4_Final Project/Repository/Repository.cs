@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SE1611_Group_4_Final_Project.IRepository;
 using SE1611_Group_4_Final_Project.Models;
-using SendGrid.Helpers.Mail;
 using System.Data;
 using System.Linq.Expressions;
 

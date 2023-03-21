@@ -2,3 +2,145 @@
 @model SE1611_Group_4_Final_Project.Pages.User.IndexModel
 @{
 }
+<script>
+    function handler(page) {
+        var a = document.getElementById("pageIdx");
+        a.value = page;
+        document.getElementById("formGet").submit();
+    }
+</script>
+<style>
+    .search-bar {
+        padding: 3%;
+    }
+</style>
+<div class="container-fluid py-4">
+    <div class="row">
+
+        <div class="col-12">
+            <div class="card">
+                <div class="row search-bar">
+                    <form id="formGet" method="get">
+                        <div class="row table-reponsive">
+                            <div class="col-12">
+                                <label>Search User</label>
+                                <input class="form-control" asp-for="@Model.query" type="search" onchange="document.getElementById('formGet').submit()" />
+                            </div>
+                        </div>
+                        <input id="pageIdx" asp-for="@Model.PageIndex" hidden />
+                    </form>
+                </div>
+                <div class="card-header pb-0">
+                    <h6>Users</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive p-0">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Email</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Address</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Identify Number</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Phone</th>
+                                    <th class="text-secondary opacity-7"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var user in Model.Users)
+                                {
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex px-2 py-1">
+                                                <div class="d-flex flex-column justify-content-center text-wrap">
+                                                    <h6 class="mb-0 text-sm">@user.Name</h6>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0 text-wrap">@user.Email</p>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <p class="text-xs font-weight-bold mb-0 text-wrap">@user.Address</p>
+
+                                        </td>
+                                        <td class="align-middle text-center text-sm">
+                                            <span class="badge badge-sm bg-gradient-success">@user.IdentifyNumber</span>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <span class="text-secondary text-xs font-weight-bold">@user.Phone</span>
+                                        </td>
+                                        <td class="align-middle">
+                                            @if (user.IsAdmin == false)
+                                            {
+                                                <a asp-page="Form" asp-route-id="@user.Id" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                                                    Edit
+                                                </a>
+                                            }
+
+                                        </td>
+
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card">
+                    @{
+                        var page = Request.Query["PageIndex"].ToString();
+                        if (string.IsNullOrEmpty(page)) page = "0";
+                        int pageNum = int.Parse(page);
+                    }
+                    @if (Model.HasPreviousPage || Model.HasNextPage)
+                    {
+                        <nav aria-label="Page navigation example" class="mt-4">
+                            <ul class="pagination justify-content-center">
+                                @if (Model.HasPreviousPage)
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link" onclick="handler(1)" aria-label="First">
+                                            <i class="fa fa-angle-left"></i>
+                                            <span class="sr-only">First</span>
+                                        </a>
+                                    </li>
+                                }
+                                @if (pageNum > 5)
+                                {
+                                    <li class="page-item"><a onclick="handler(@(pageNum - 5))" asp-a class="page-link">...</a></li>
+                                }
+
+                                @for (int i = Math.Max(1, pageNum - 2); i <= Math.Min(Model.TotalPage, pageNum + 2); i++)
+                                {
+                                    if (i == pageNum)
+                                    {
+                                        <li class="page-item active"><a class="page-link">@i</a></li>
+                                    }
+                                    else
+                                    {
+                                        <li class="page-item"><a class="page-link" onclick="handler(@i)">@i</a></li>
+                                    }
+                                }
+                                @if (pageNum < Model.TotalPage - 4)
+                                {
+                                    <li class="page-item"><a onclick="handler(@(pageNum + 5))" class="page-link">...</a></li>
+                                }
+                                @if (Model.HasNextPage)
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link" onclick="handler(@Model.TotalPage)" aria-label="Last">
+                                            <i class="fa fa-angle-right"></i>
+                                            <span class="sr-only">Last</span>
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </nav>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace SE1611_Group_4_Final_Project.Models
+﻿namespace SE1611_Group_4_Final_Project.Models
 {
     public partial class Room
     {
@@ -17,7 +14,7 @@ namespace SE1611_Group_4_Final_Project.Models
         public decimal Price { get; set; }
         public int Area { get; set; }
         public string Address { get; set; } = null!;
-        public bool? IsAvailable { get; set; }
+        public bool IsAvailable { get; set; }
         public string? Description { get; set; }
 
         public virtual ICollection<RoomFurniture> RoomFurnitures { get; set; }

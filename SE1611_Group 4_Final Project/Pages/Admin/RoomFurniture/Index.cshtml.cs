@@ -13,26 +13,27 @@ namespace SE1611_Group_4_Final_Project.Pages.RoomFurniture
         {
             _repository = repository;
         }
-        public IActionResult OnGet(string? query, int? skip = 0, int? take = 18)
+        public void OnGet(string? query, int? skip = 0, int? take = 18)
         {
             RoomFurnitures = _repository.GetDbSet();
             if (!query.IsNullOrEmpty()) RoomFurnitures.Where(rf => rf.Name.Contains(query));
             RoomFurnitures = RoomFurnitures.Skip(skip.Value).Take(take.Value);
-            return Page();
         }
         public IActionResult OnGetCrashedConfirm(Guid id)
         {
             var rf = _repository.Find(id);
             rf.Status = (int)Constant.RoomFurnitureStatus.Crashed;
             _repository.Update(rf);
-            return OnGet("");
+             OnGet("");
+            return RedirectToPage("/Index");
         }
         public IActionResult OnGetReplaced(Guid id)
         {
             var rf = _repository.Find(id);
             rf.Status = (int)Constant.RoomFurnitureStatus.Normal;
             _repository.Update(rf);
-            return OnGet("");
+            OnGet("");
+            return RedirectToPage("/Index");
         }
 
     }

@@ -1,16 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Newtonsoft.Json;
 using SE1611_Group_4_Final_Project.IRepository;
-using SE1611_Group_4_Final_Project.Models;
-using SE1611_Group_4_Final_Project.Repository;
-using SE1611_Group_4_Final_Project.Services;
-using SE1611_Group_4_Final_Project.Utils;
-using System.ComponentModel.DataAnnotations;
-using System.IO;
 
 namespace SE1611_Group_4_Final_Project.Pages
 {
