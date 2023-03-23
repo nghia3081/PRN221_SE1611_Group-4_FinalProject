@@ -2,3 +2,46 @@
 @model SE1611_Group_4_Final_Project.Pages.Invoice.FormModel
 @{
 }
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header pb-0">
+                    <h6>Notification table <a asp-page="Index"><i class="fa fa-arrow-left"></i></a></h6>
+                </div>
+                <div class="card-body px-0 pt-0 pb-2">
+                    <div class=" p-5">
+                        <form asp-action="POST">
+                            <input asp-for="@Model.Invoice.Id" hidden="true" />
+                            <input asp-for="@Model.Invoice.CreatedDate" hidden="true" />
+                            <label>Title</label>
+                            <div class="mb-3">
+                                <input asp-for="@Model.Invoice.Title" class="form-control" placeholder="Title" />
+                            </div>
+                            <label>Description</label>
+                            <div class="mb-3">
+                                <input asp-for="@Model.Invoice.Description" class="form-control" placeholder="Description">
+                            </div>
+                            <label asp-for="@Model.Invoice.Status"></label>
+                            <div class="mb-3">
+                                <select class="form-control" asp-for="@Model.Invoice.Status" asp-items="@Model.InvoiceStatus"></select>
+                            </div>
+                            <label asp-for="@Model.Invoice.Type"></label>
+                            <div class="mb-3">
+                                <select class="form-control" asp-for="@Model.Invoice.Type" asp-items="@Model.InvoiceType"></select>
+                            </div>
+                            <label>Show for room</label>
+                            <div class="mb-3">
+                                <select name="RoomSelected" asp-items="@Model.RoomSelectList" class="form-control" multiple data-live-search="true">
+                                </select>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn bg-gradient-info w-100 mt-4 mb-0">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
