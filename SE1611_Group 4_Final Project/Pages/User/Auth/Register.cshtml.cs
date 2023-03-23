@@ -8,7 +8,7 @@ namespace SE1611_Group_4_Final_Project.Pages
     public class RegisterModel : PageModel
     {
         private readonly IRepository<Models.User> _userRepository;
-        private readonly ILogger<LoginModel> _logger;
+        public readonly ILogger<LoginModel> _logger;
         public RegisterModel(ILogger<LoginModel> logger, IRepository<Models.User> userRepository)
         {
             _userRepository = userRepository;

@@ -1,4 +1,92 @@
-﻿@page
+﻿@page "/User/Invoice/InvoiceServicesDetail/{id}"
 @model SE1611_Group_4_Final_Project.Pages.InvoiceServicesDetailModel
+@using SE1611_Group_4_Final_Project.Utils;
 @{
 }
+<div class="card mb-4">
+    <div class="card-header pb-0">
+        <h6>INVOICE</h6>
+    </div>
+    <div class="card-body px-0 pt-0 pb-2">
+        <div class="table-responsive p-0">
+            <table class="table align-items-center mb-0">
+                <thead>
+                    <tr>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Room Name</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Type</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Description</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Rooms)
+                    {
+                        <tr>
+                            <td class="align-middle text-center">
+                                <span class="text-secondary text-xs font-weight-bold">@item.Name</span>
+                            </td>
+                            <td class="align-middle text-center">
+                                <span class="text-secondary text-xs font-weight-bold">@Enum.GetName(typeof(Constant.InvoiceType),Model.invoice.Type)</span>
+                            </td>
+                            <td class="align-middle text-center">
+                                <span class="text-secondary text-xs text-wrap font-weight-bold">@Model.invoice.Description</span>
+                            </td>
+                            <td class="align-middle text-center">
+                                <span class="text-secondary text-xs font-weight-bold">@Model.invoice.GrandTotal</span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <div class="card-body ">
+                <ul class="list-group">
+                    <hr class="horizontal my-4 dark">
+                    <div class="row">
+                        <div class="col">
+                        </div>
+                        <div class="col">
+                            <div> <strong class="text-dark">Invoice ID:</strong></div>
+                            <div>
+                                <strong class="text-dark">Paid Date:</strong>
+                            </div>
+                            <div>
+                                <strong class="text-dark">Created Date:</strong>
+                            </div>
+                            <div>
+                                <strong class="text-dark">Customer:</strong>
+                            </div>
+                            <div>
+                                <strong class="text-dark">Address:</strong>
+                            </div>
+                            <div>
+                                <strong class="text-dark">Total:</strong>
+                            </div>
+                        </div>
+                        <div class="col text-end">
+                            <div>
+                                <strong class="text-sm">&nbsp; @BitConverter.ToInt32(Model.invoice.Id.ToByteArray(),0)</strong>
+                            </div>
+                            <div>
+                                <strong class="text-sm">&nbsp; @Model.invoice.PaidDate.Value.ToShortDateString()</strong>
+                            </div>
+                            <div>
+                                <strong class="text-sm">&nbsp; @Model.invoice.CreatedDate.ToShortDateString()</strong>
+                            </div>
+                            <div>
+                                <strong class="text-sm">&nbsp; @Model.invoice.User.Name</strong>
+                            </div>
+                            <div>
+                                <strong class="text-sm">&nbsp; @Model.invoice.User.Address</strong>
+                            </div>
+                            <div>
+                                <strong class="text-sm">&nbsp; @Model.invoice.GrandTotal $</strong>
+                            </div>
+
+                        </div>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

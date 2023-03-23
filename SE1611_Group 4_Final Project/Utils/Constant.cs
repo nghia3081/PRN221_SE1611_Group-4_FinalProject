@@ -23,7 +23,10 @@ namespace SE1611_Group_4_Final_Project.Utils
             UserConfirmedPaid,
             ManagerConfirmedPaid,
             Paid,
-            UnPaid
+            UnPaid,
+            Processing,
+            Done,
+            CheckOut
         }
         public enum InvoiceType
         {
@@ -31,6 +34,7 @@ namespace SE1611_Group_4_Final_Project.Utils
             Electricity,
             Water,
             Internet,
+            Other
         }
         public enum RoomFurnitureStatus
         {

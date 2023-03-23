@@ -22,10 +22,12 @@ namespace SE1611_Group_4_Final_Project.IRepository
         public IEnumerable<T> FindwithQuery(Expression<Func<T, bool>> predicate);
         public IEnumerable<TResult> SelectField<TResult>(Expression<Func<T, TResult>> selector);
         public List<Room> FilterRooms(int minPrice, int maxPrice, int minArea, int maxArea, string address, int pageIndex, int pageSize);
-        public List<Invoice> FilterInvoices(int month, int year);
+        public List<Invoice> FilterRoomInvoices(int month, int year, Guid userID);
+        public List<Invoice> FilterServiceInvoices(int month, int year, Guid userID);
         public List<Room> GetRoomsbyInvoice(Guid id);
         public Invoice GetInvoice(Guid id);
         public void AddRoomInvoice(Guid roomId, Guid invoiceId);
-
+        public List<Room> GetRoomInvoice(List<Invoice> invoice);
+        public void RemoveRoomfromInvoice(Guid roomId, Guid invoiceId);
     }
 }

@@ -4,7 +4,7 @@ namespace SE1611_Group_4_Final_Project.Pages
 {
     public class PrivacyModel : PageModel
     {
-        private readonly ILogger<PrivacyModel> _logger;
+        public readonly ILogger<PrivacyModel> _logger;
 
         public PrivacyModel(ILogger<PrivacyModel> logger)
         {

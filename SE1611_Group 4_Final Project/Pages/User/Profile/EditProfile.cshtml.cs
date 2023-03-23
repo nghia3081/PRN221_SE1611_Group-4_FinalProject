@@ -12,7 +12,7 @@ namespace SE1611_Group_4_Final_Project.Pages
 {
     public class EditProfileModel : PageModel
     {
-        private readonly ILogger<EditProfileModel> _logger;
+        public readonly ILogger<EditProfileModel> _logger;
         private readonly IRepository<Models.User> _userRepository;
         private Microsoft.AspNetCore.Hosting.IHostingEnvironment _environment;
         [BindProperty]
