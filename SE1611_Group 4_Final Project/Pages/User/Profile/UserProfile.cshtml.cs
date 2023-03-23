@@ -7,7 +7,7 @@ namespace SE1611_Group_4_Final_Project.Pages
 {
     public class UserProfileModel : PageModel
     {
-        private readonly ILogger<UserProfileModel> _logger;
+        public readonly ILogger<UserProfileModel> _logger;
         private readonly IRepository<Models.User> _userRepository;
         public Models.User user { get; set; }
         public string content { get; set; }

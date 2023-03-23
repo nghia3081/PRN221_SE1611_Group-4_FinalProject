@@ -1,0 +1,40 @@
+﻿@page
+@model SE1611_Group_4_Final_Project.Pages.User.Invoice.RequestCreateModel
+@{
+}
+<div class="card card-frame">
+    <div class="card-body">
+        <div class="card-header pb-0">
+            <h6>New Request</h6>
+        </div>
+        <form method="post">
+            <div class="form-group mt-4">
+                <div class="dropdown">
+                    <label class="form-control-label" for="basic-url">
+                        Room
+                    </label>
+                    <select id="room" name="room" class="form-control" asp-items="@Model.Room">
+                    </select>
+                </div>
+            </div>
+            <div class="form-group mt-4">
+                <div class="dropdown">
+                    <label class="form-control-label" for="basic-url">
+                        Type
+                    </label>
+                    <select id="type" name="type" class="form-control" asp-items="@Model.Type">
+                    </select>
+                </div>
+            </div>
+            <div class="form-group mt-4">
+                <label class="form-control-label" for="basic-url">
+                    Content
+                </label>
+                <div class="input-group">
+                    <textarea class="form-control" aria-label="With textarea" id="title" name="title"></textarea>
+                </div>
+            </div>
+            <button type="submit" class="btn bg-gradient-primary">Submit</button>
+        </form>
+    </div>
+</div>

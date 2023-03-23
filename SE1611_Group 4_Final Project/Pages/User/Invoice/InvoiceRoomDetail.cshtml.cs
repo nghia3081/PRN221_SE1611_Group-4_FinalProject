@@ -5,7 +5,7 @@ namespace SE1611_Group_4_Final_Project.Pages
 {
     public class InvoiceRoomDetailModel : PageModel
     {
-		private readonly ILogger<InvoiceRoomDetailModel> _logger;
+		public readonly ILogger<InvoiceRoomDetailModel> _logger;
 		private readonly IRepository<Models.Invoice> _invoiceRepository;
 		private readonly IRepository<Models.Room> _roomRepository;
 		private readonly IRepository<Models.RoomFurniture> _roomFurnitureRepository;

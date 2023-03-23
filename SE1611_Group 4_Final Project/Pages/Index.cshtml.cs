@@ -9,7 +9,7 @@ namespace SE1611_Group_4_Final_Project.Pages
     public class IndexModel : PageModel
     {
         private readonly IRepository<Models.Invoice> repository;
-        private readonly ILogger<IndexModel> _logger;
+        public readonly ILogger<IndexModel> _logger;
         private readonly IRepository<Models.Room> _roomRepository;
         [BindProperty]
         public Models.User user { get; set; }

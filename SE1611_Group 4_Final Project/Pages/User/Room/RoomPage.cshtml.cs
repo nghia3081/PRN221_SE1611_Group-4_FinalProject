@@ -9,7 +9,7 @@ namespace SE1611_Group_4_Final_Project.Pages
     public class RoomPageModel : PageModel
     {
 
-        private readonly ILogger<RoomPageModel> _logger;
+        public readonly ILogger<RoomPageModel> _logger;
         private readonly IRepository<Models.Room> _roomRepository;
         [BindProperty]
         public InputModel Input { get; set; }

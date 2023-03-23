@@ -1,0 +1,58 @@
+﻿@page "/User/Invoice/RequestDetail/{id}"
+@model SE1611_Group_4_Final_Project.Pages.User.Invoice.RequestDetailModel
+@using SE1611_Group_4_Final_Project.Utils;
+
+@{
+}
+<div class="card mb-4">
+    <div class="card-body px-0 pt-0 pb-2">
+
+        <div class="card-footer ">
+            <ul class="list-group">
+                <hr class="horizontal my-4 dark">
+                <div class="row">
+                    <div class="col">
+                    </div>
+                    <div class="col">
+                        <div> <strong class="text-dark">Request ID:</strong></div>
+                        <div>
+                            <strong class="text-dark">Room:</strong>
+                        </div>
+                        <div>
+                            <strong class="text-dark">Request Type:</strong>
+                        </div>
+                        <div>
+                            <strong class="text-dark">Content:</strong>
+                        </div>
+                        <div>
+                            <strong class="text-dark">Created Date:</strong>
+                        </div>
+                        <div>
+                            <strong class="text-dark">Status:</strong>
+                        </div>
+                    </div>
+                    <div class="col text-end">
+                        <div>
+                            <strong class="text-sm">&nbsp; @BitConverter.ToInt32(Model.invoice.Id.ToByteArray(),0)</strong>
+                        </div>
+                        <div>
+                            <strong class="text-sm">&nbsp; @Model.invoice.Rooms.FirstOrDefault().Name</strong>
+                        </div>
+                        <div>
+                            <strong class="text-sm">&nbsp; @Enum.GetName(typeof(Constant.InvoiceType),Model.invoice.Type)</strong>
+                        </div>
+                        <div>
+                            <strong class="text-sm">&nbsp; @Model.invoice.Title</strong>
+                        </div>
+                        <div>
+                            <strong class="text-sm">&nbsp; @Model.invoice.CreatedDate.ToShortDateString()</strong>
+                        </div>
+                        <div>
+                            <strong class="text-sm">&nbsp; @Enum.GetName(typeof(Constant.InvoiceType),Model.invoice.Status)</strong>
+                        </div>
+                    </div>
+                </div>
+            </ul>
+        </div>
+    </div>
+</div>

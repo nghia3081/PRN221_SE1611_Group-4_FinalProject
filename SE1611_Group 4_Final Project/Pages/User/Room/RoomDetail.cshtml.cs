@@ -7,7 +7,7 @@ namespace SE1611_Group_4_Final_Project.Pages
 {
     public class RoomDetailModel : PageModel
     {
-        private readonly ILogger<RoomDetailModel> _logger;
+        public readonly ILogger<RoomDetailModel> _logger;
         private readonly IRepository<Models.Room> _roomRepository;
         private readonly IRepository<Models.Invoice> _invoiceRepository;
         public Models.Room Room { get; set; }
@@ -41,21 +41,21 @@ namespace SE1611_Group_4_Final_Project.Pages
                 SuggestedRooms = JsonConvert.DeserializeObject<List<Models.Room>>(json);
             }
             Room = _roomRepository.Find(Guid.Parse(id));
-            Models.Invoice invoice = _invoiceRepository.FindwithQuery(x => x.Status == ((int)Constant.InvoiceStatus.UnPaid) && x.UserId == user.Id).FirstOrDefault();
+            Models.Invoice invoice = _invoiceRepository.FindwithQuery(x => x.Status == ((int)Constant.InvoiceStatus.Created) && x.UserId == user.Id).FirstOrDefault();
             if(invoice == null) {
                 invoice = new Models.Invoice();
                 invoice.UserId = user.Id;
                 invoice.Id = Guid.NewGuid();
                 invoice.CreatedDate= DateTime.Now;
-                invoice.Status = (int)Constant.InvoiceStatus.UnPaid;
+                invoice.Status = (int)Constant.InvoiceStatus.Created;
                 invoice.Title = "Booking_Room"+"_"+user.Name.ToString()+"_"+DateTime.Now.ToString();
                 invoice.GrandTotal = Room.Price;
                 _invoiceRepository.Add(invoice);
             }
             if (Room.IsAvailable == true)
             {
+                invoice.Rooms.Add(Room);
                 _invoiceRepository.AddRoomInvoice(Room.Id, invoice.Id);
-                Room = _roomRepository.Find(Guid.Parse(id));
                 Room.IsAvailable = false;
                 _roomRepository.Update(Room);
             }

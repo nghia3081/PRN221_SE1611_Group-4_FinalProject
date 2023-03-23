@@ -22,7 +22,10 @@
             UserConfirmedPaid,
             ManagerConfirmedPaid,
             Paid,
-            UnPaid
+            UnPaid,
+            Processing,
+            Done,
+            CheckOut
         }
         public enum InvoiceType
         {
@@ -30,6 +33,7 @@
             Electricity,
             Water,
             Internet,
+            Other
         }
         public enum RoomFurnitureStatus
         {

@@ -1,5 +1,6 @@
 ﻿@page
 @model UserBillingModel
+@using SE1611_Group_4_Final_Project.Utils;
 @{
 }
 <div class="container-fluid py-4">
@@ -37,7 +38,7 @@
             </div>
             <div class="card mb-4">
                 <div class="card-header pb-0">
-                    <h6>Invoices</h6>
+                    <h6>Room Invoices</h6>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="table-responsive p-0">
@@ -54,7 +55,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    @foreach (var item in Model.Invoices)
+                                    @foreach (var item in Model.RoomInvoices)
                                     {
                                         <td class="align-middle text-center">
                                             <span class="text-secondary text-xs font-weight-bold">@item.Title</span>
@@ -66,13 +67,61 @@
                                             <span class="text-secondary text-xs font-weight-bold">@item.Description</span>
                                         </td>
                                         <td class="align-middle text-center">
-                                            <span class="text-secondary text-xs font-weight-bold">@item.Status</span>
+                                            <span class="text-secondary text-xs font-weight-bold">@Enum.GetName(typeof(Constant.InvoiceStatus),item.Status)</span>
                                         </td>
                                         <td class="align-middle text-center">
                                             <span class="text-secondary text-xs font-weight-bold">@item.GrandTotal $</span>
                                         </td>
                                         <td class="align-middle">
                                             <a asp-page="/User/Invoice/InvoiceRoomDetail" asp-route-id="@item.Id" class="text-black text-decoration-underline font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Detail Bill">
+                                                Detail
+                                            </a>
+                                        </td>
+                                    }
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-4">
+                <div class="card-header pb-0">
+                    <h6>Services Invoices</h6>
+                </div>
+                <div class="card-body px-0 pt-0 pb-2">
+                    <div class="table-responsive p-0">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Title</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Created Date</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Description</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Total Amount</th>
+                                    <th class="text-secondary opacity-7"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    @foreach (var item in Model.ServiceInvoices)
+                                    {
+                                        <td class="align-middle text-center">
+                                            <span class="text-secondary text-xs font-weight-bold">@item.Title</span>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <span class="text-secondary text-xs font-weight-bold">@item.CreatedDate.Date.ToShortDateString()</span>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <span class="text-secondary text-xs font-weight-bold">@item.Description</span>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <span class="text-secondary text-xs font-weight-bold">@Enum.GetName(typeof(Constant.InvoiceStatus),item.Status)</span>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <span class="text-secondary text-xs font-weight-bold">@item.GrandTotal $</span>
+                                        </td>
+                                        <td class="align-middle">
+                                            <a asp-page="/User/Invoice/InvoiceServicesDetail" asp-route-id="@item.Id" class="text-black text-decoration-underline font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Detail Bill">
                                                 Detail
                                             </a>
                                         </td>

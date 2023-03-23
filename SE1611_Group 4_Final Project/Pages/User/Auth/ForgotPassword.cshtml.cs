@@ -12,7 +12,7 @@ namespace SE1611_Group_4_Final_Project.Pages
     [AllowAnonymous]
     public class ForgotPasswordModel : PageModel
     {
-        private readonly ILogger<ForgotPasswordModel> _logger;
+        public readonly ILogger<ForgotPasswordModel> _logger;
         private IRepository<Models.User> UserRepository;
         private readonly IEmailSender _emailSender;
         public ForgotPasswordModel(ILogger<ForgotPasswordModel> logger, IEmailSender emailSender, IRepository<Models.User> repository)
