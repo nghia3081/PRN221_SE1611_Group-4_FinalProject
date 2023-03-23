@@ -35,7 +35,7 @@ namespace SE1611_Group_4_Final_Project.Pages.Invoice
             invoice.Status = (int)Constant.InvoiceStatus.Approved;
             _repository.Update(invoice);
             OnGet();
-            return RedirectToPage("/Index");
+            return RedirectToPage("/Admin/Invoice/Index");
         }
         public IActionResult OnGetConfirmPaid(Guid id)
         {
@@ -43,7 +43,7 @@ namespace SE1611_Group_4_Final_Project.Pages.Invoice
             invoice.Status = (int)Constant.InvoiceStatus.ManagerConfirmedPaid;
             _repository.Update(invoice);
             OnGet();
-            return RedirectToPage("/Index");
+            return RedirectToPage("/Admin/Invoice/Index");
         }
     }
 }

@@ -16,12 +16,15 @@ namespace SE1611_Group_4_Final_Project.Pages.RoomFurniture
         public bool HasPreviousPage => (PageIndex > 1);
         public bool HasNextPage => (PageIndex < TotalPage);
 
+        public Dictionary<int, string> listStatus { get; set; }
+
         private const int PageSize = 18;
         [BindProperty(SupportsGet = true)]
         public string query { get; set; }
         public IndexModel(IRepository<Models.RoomFurniture> repository)
         {
             _repository = repository;
+            listStatus  = Enum.GetValues(typeof(Constant.RoomFurnitureStatus)).Cast<Constant.RoomFurnitureStatus>().ToDictionary(t => (int)t, t => t.ToString());
         }
         public void OnGet()
         {
@@ -36,7 +39,7 @@ namespace SE1611_Group_4_Final_Project.Pages.RoomFurniture
             rf.Status = (int)Constant.RoomFurnitureStatus.Crashed;
             _repository.Update(rf);
              OnGet();
-            return RedirectToPage("/Index");
+            return RedirectToPage("/Admin/RoomFurniture/Index");
         }
         public IActionResult OnGetReplaced(Guid id)
         {
@@ -44,7 +47,7 @@ namespace SE1611_Group_4_Final_Project.Pages.RoomFurniture
             rf.Status = (int)Constant.RoomFurnitureStatus.Normal;
             _repository.Update(rf);
             OnGet();
-            return RedirectToPage("/Index");
+            return RedirectToPage("/Admin/RoomFurniture/Index");
         }
 
     }

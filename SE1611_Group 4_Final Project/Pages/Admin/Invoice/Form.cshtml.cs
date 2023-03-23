@@ -39,7 +39,7 @@ namespace SE1611_Group_4_Final_Project.Pages.Invoice
                 currentInvoice.Rooms = Invoice.Rooms;
                 _repository.Update(currentInvoice);
             }
-            return RedirectToPage("Index");
+            return RedirectToPage("/Admin/Invoice/Index");
         }
     }
 }

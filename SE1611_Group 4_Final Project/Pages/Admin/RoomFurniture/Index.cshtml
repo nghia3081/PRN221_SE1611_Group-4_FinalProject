@@ -1,6 +1,7 @@
 ﻿@page
 @model SE1611_Group_4_Final_Project.Pages.RoomFurniture.IndexModel
 @{
+
 }
 <script>
     function handler(page) {
@@ -27,6 +28,9 @@
         </form>
     </div>
     <div class="table-responsive">
+        <div class="card-header pb-0">
+            <h6>Room furniture table <a asp-page="Form"><i class="fa fa-plus add-icon" onclick="addNotif"></i></a></h6>
+        </div>
         <table class="table align-items-center mb-0">
             <thead>
                 <tr class="text-center">
@@ -34,6 +38,8 @@
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Status</th>
                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Room</th>
+                    <th class="text-secondary opacity-7"></th>
+                    <th class="text-secondary opacity-7"></th>
                     <th class="text-secondary opacity-7"></th>
                 </tr>
             </thead>
@@ -72,7 +78,7 @@
                                                         var pathSplit = f.Split('\\');
                                                         var fileName = pathSplit[pathSplit.Length - 1];
                                                         <div class="carousel-item @(a?"active":"")">
-                                                            <img src="/img/room/roomfurniture/@rf.Id/@fileName" class="d-block w-100" alt="...">
+                                                            <img src="/img/roomfurniture/@rf.Id/@fileName" class="d-block w-100" alt="...">
                                                         </div>
                                                         a = false;
                                                     }
@@ -93,21 +99,38 @@
 
                             </td>
                             <td class="p-6">
-                                <div class="d-flex flex-column justify-content-center">
+                                <div class="d-flex flex-column justify-content-center text-center">
                                     <h6 class="mb-0 text-xs">@rf.Name</h6>
                                 </div>
                             </td>
                             <td>
-                                <p class="text-xs text-wrap text-justify font-weight-bold mb-0">@rf.Status</p>
+                                <p class="text-xs text-wrap font-weight-bold text-center mb-0">@(Model.listStatus[rf.Status??1])</p>
                             </td>
                             <td class="align-middle  text-sm">
-                                <span class="badge badge-sm text-wrap text-justify badge-success">@rf.Room?.Name</span>
+                                <p class="text-xs text-wrap font-weight-bold text-center mb-0">@rf.Room?.Name</p>
+
                             </td>
                             <td class="align-middle">
                                 <a asp-page="Form" asp-route-id="@rf.Id" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
                                     Edit
                                 </a>
                             </td>
+                            @if(rf.Status == (int)SE1611_Group_4_Final_Project.Utils.Constant.RoomFurnitureStatus.CrashReported)
+                            {
+                                <td class="align-middle">
+                                    <a asp-page-handler="CrashedConfirm" asp-route-id="@rf.Id" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                                        Confirm Crashed
+                                    </a>
+                                </td>
+                            }
+                            @if (rf.Status == (int)SE1611_Group_4_Final_Project.Utils.Constant.RoomFurnitureStatus.Normal)
+                            {
+                                <td class="align-middle">
+                                    <a asp-page-handler="Replaced" asp-route-id="@rf.Id" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                                        Replaced New Item
+                                    </a>
+                                </td>
+                            }
                         </tr>
                     }
 

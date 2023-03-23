@@ -22,21 +22,17 @@ namespace SE1611_Group_4_Final_Project.Pages.Admin.RoomFurniture
         }
         public void OnGet(Guid? id)
         {
-            roomSelect = new SelectList(_context.GetDbSet<Models.Room>().AsEnumerable());
-            listStatus = new Dictionary<int, string>()
-            {
-                {(int)Constant.RoomFurnitureStatus.Normal, Constant.RoomFurnitureStatus.Normal.ToString() },
-                {(int)Constant.RoomFurnitureStatus.Crashed, Constant.RoomFurnitureStatus.Normal.ToString() },
-                {(int)Constant.RoomFurnitureStatus.CrashReported, Constant.RoomFurnitureStatus.Normal.ToString() },
-            };
+            roomSelect = new SelectList(_context.GetDbSet<Models.Room>().AsEnumerable(), "Id", "Name");
+
+            listStatus = Enum.GetValues(typeof(Constant.RoomFurnitureStatus)).Cast<Constant.RoomFurnitureStatus>().ToDictionary(t => (int)t, t => t.ToString());
             statusSelect = new SelectList(listStatus.AsEnumerable(), "Key", "Value");
             if (id.HasValue)
             {
                 RoomFurniture = _context.Find(id);
-                roomSelect = new SelectList(_context.GetDbSet<Models.Room>().AsEnumerable(),"Id","Name", RoomFurniture.RoomId);
+                roomSelect = new SelectList(_context.GetDbSet<Models.Room>().AsEnumerable(), "Id", "Name", RoomFurniture.RoomId);
                 statusSelect = new SelectList(listStatus.AsEnumerable(), "Key", "Value", RoomFurniture.Status);
             }
-           
+
         }
         public IActionResult OnPost()
         {
@@ -53,7 +49,7 @@ namespace SE1611_Group_4_Final_Project.Pages.Admin.RoomFurniture
             {
                 UploadRoomImage(RoomFurniture.Id);
             }
-            return RedirectToPage("/Index");
+            return RedirectToPage("/Admin/RoomFurniture/Index");
         }
         private async Task UploadRoomImage(Guid roomId)
         {

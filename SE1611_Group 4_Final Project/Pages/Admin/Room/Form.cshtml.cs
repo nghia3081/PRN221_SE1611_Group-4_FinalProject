@@ -37,7 +37,7 @@ namespace SE1611_Group_4_Final_Project.Pages.Room
             {
                 UploadRoomImage(Room.Id);
             }
-            return RedirectToPage("/Index");
+            return RedirectToPage("/Admin/Room/Index");
         }
         private async Task UploadRoomImage(Guid roomId)
         {
