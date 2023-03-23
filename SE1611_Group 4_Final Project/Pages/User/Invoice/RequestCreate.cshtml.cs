@@ -43,20 +43,18 @@ namespace SE1611_Group_4_Final_Project.Pages.User.Invoice
             {
                 user = JsonConvert.DeserializeObject<Models.User>(jsonUser);
             }
-            List<Models.Room> rooms = new();
-            rooms.Add(_roomRepository.FindwithQuery(x => x.Name.Equals(room)).First());
             Models.Invoice invoice = new Models.Invoice();
             invoice.Id = Guid.NewGuid();
             invoice.CreatedDate= DateTime.Now;
             invoice.UserId = user.Id;
             invoice.GrandTotal = 0;
             invoice.User = user;
-            invoice.Rooms = rooms;
-            invoice.Title = "Request-" + room +"-"+ type;
+            invoice.Rooms.Add(_roomRepository.FindwithQuery(x => x.Name.Equals(room)).First());
+            invoice.Title = "Request_" + room +"_"+ type;
             invoice.Description = title;
             invoice.Type = (int)Enum.Parse(typeof(Constant.InvoiceType), type);
             invoice.Status = (int)Constant.InvoiceStatus.Processing;
-            _invoiceRepository.Add(invoice);
+            _invoiceRepository.Add(invoice).Wait();
             return RedirectToPage("/User/Invoice/Request");
         }
     }

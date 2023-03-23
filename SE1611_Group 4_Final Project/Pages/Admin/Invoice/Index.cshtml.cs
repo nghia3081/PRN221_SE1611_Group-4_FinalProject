@@ -40,7 +40,6 @@ namespace SE1611_Group_4_Final_Project.Pages.Invoice
         public IActionResult OnGetConfirmPaid(Guid id)
         {
             var invoice = _repository.Find(id);
-            invoice.Status = (int)Constant.InvoiceStatus.ManagerConfirmedPaid;
             _repository.Update(invoice);
             OnGet();
             return RedirectToPage("/Admin/Invoice/Index");
