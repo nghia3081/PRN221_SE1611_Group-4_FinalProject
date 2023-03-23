@@ -23,9 +23,14 @@ namespace SE1611_Group_4_Final_Project.Pages.Admin.Invoice
         }
         public void OnGetDone(Guid Id)
         {
-            var inv = repository.Find(Id);
+            var inv = repository.GetDbSet().Include(i => i.Rooms).FirstOrDefault(i => i.Id == Id);
             inv.Status = (int)Constant.InvoiceStatus.Done;
-            repository.Update(inv);
+            foreach(var r in inv.Rooms)
+            {
+                r.IsAvailable = true;
+            }
+            repository.GetDbSet<Models.Room>().UpdateRange(inv.Rooms);
+            repository.GetDbSet().Update(inv).Context.SaveChanges();
             OnGet();
         }
     }
