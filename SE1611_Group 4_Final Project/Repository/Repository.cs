@@ -108,7 +108,10 @@ namespace SE1611_Group_4_Final_Project.Repository
 
         public List<Invoice> FilterRoomInvoices(int month, int year, Guid userID)
         {
-            var result = _motelManagementContext.Invoices.Include(i => i.Rooms).Where(x => x.UserId == userID && x.Type == (int)Constant.InvoiceType.Living && x.Status == (int)Constant.InvoiceStatus.Paid).AsQueryable();
+            var result = _motelManagementContext.Invoices.Include(i => i.Rooms).Where(x => x.UserId == userID
+            && x.Type == (int)Constant.InvoiceType.Living
+            && x.Status == (int)Constant.InvoiceStatus.Approved
+            && x.GrandTotal != 0).AsQueryable();
 
             if (month != -1)
             {
@@ -124,8 +127,30 @@ namespace SE1611_Group_4_Final_Project.Repository
         }
         public List<Invoice> FilterServiceInvoices(int month, int year, Guid userID)
         {
-            var result = _motelManagementContext.Invoices.Include(i => i.Rooms).Where(x => x.UserId == userID && x.Type == (int)Constant.InvoiceType.Electricity
-            || x.Type == (int)Constant.InvoiceType.Water || x.Type == (int)Constant.InvoiceType.Internet && x.Status == (int)Constant.InvoiceStatus.Paid).AsQueryable();
+            var result = _motelManagementContext.Invoices.Include(i => i.Rooms).Where(x => x.UserId == userID 
+            && x.Type == (int)Constant.InvoiceType.Electricity
+            || x.Type == (int)Constant.InvoiceType.Water 
+            || x.Type == (int)Constant.InvoiceType.Internet 
+            && x.Status == (int)Constant.InvoiceStatus.Approved 
+            && x.GrandTotal != 0).AsQueryable();
+
+            if (month != -1)
+            {
+                result = result.Where(i => i.CreatedDate.Month == month);
+            }
+
+            if (year != -1)
+            {
+                result = result.Where(i => i.CreatedDate.Year == year);
+            }
+
+            return result.ToList();
+        }
+        public List<Invoice> FilterConfirmInvoices(int month, int year, Guid userID)
+        {
+            var result = _motelManagementContext.Invoices.Include(i => i.Rooms).Where(x => x.UserId == userID
+           && x.Status == (int)Constant.InvoiceStatus.RequirePaid
+           && x.GrandTotal != 0).AsQueryable();
 
             if (month != -1)
             {
@@ -195,12 +220,6 @@ namespace SE1611_Group_4_Final_Project.Repository
                 }
             }
             return rooms.Distinct().ToList();
-        }
-        public void RemoveRoomfromInvoice(Guid roomId, Guid invoiceId)
-        {
-            var invoice = _motelManagementContext.Invoices.Where(x => x.Id == invoiceId).First();
-            var room = _motelManagementContext.Rooms.Where(x => x.Id == roomId).FirstOrDefault();
-            invoice.Rooms.Remove(room);
         }
     }
 }

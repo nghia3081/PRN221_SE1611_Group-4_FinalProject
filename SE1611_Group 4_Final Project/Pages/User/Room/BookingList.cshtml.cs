@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using SE1611_Group_4_Final_Project.IRepository;
 using SE1611_Group_4_Final_Project.Models;
@@ -38,9 +39,12 @@ namespace SE1611_Group_4_Final_Project.Pages.User.Room
             {
                 user = JsonConvert.DeserializeObject<Models.User>(jsonUser);
             }
-            var Invoice = _invoiceRepository.FindwithQuery(x => x.Status == (int)Constant.InvoiceStatus.Created && x.UserId == user.Id).Select(x => x.Id).First();
-
-            _invoiceRepository.RemoveRoomfromInvoice(Guid.Parse(id), Invoice);
+            var InvoiceId = _invoiceRepository.FindwithQuery(x => x.Status == (int)Constant.InvoiceStatus.Created && x.UserId == user.Id).Select(x => x.Id).First();
+            Models.Invoice invoice = _invoiceRepository.Find(InvoiceId);
+            var room = _roomRepository.FindwithQuery(x => x.Id == Guid.Parse(id)).First();
+            invoice.Rooms.Remove(room);
+            _invoiceRepository.Update(invoice).Wait();
+            room.IsAvailable = true;
             return RedirectToPage("/User/Room/BookingList");
         }
 

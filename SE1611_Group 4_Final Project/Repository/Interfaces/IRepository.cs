@@ -24,10 +24,10 @@ namespace SE1611_Group_4_Final_Project.IRepository
         public List<Room> FilterRooms(int minPrice, int maxPrice, int minArea, int maxArea, string address, int pageIndex, int pageSize);
         public List<Invoice> FilterRoomInvoices(int month, int year, Guid userID);
         public List<Invoice> FilterServiceInvoices(int month, int year, Guid userID);
+        public List<Invoice> FilterConfirmInvoices(int month, int year, Guid userID);
         public List<Room> GetRoomsbyInvoice(Guid id);
         public Invoice GetInvoice(Guid id);
         public void AddRoomInvoice(Guid roomId, Guid invoiceId);
         public List<Room> GetRoomInvoice(List<Invoice> invoice);
-        public void RemoveRoomfromInvoice(Guid roomId, Guid invoiceId);
     }
 }
