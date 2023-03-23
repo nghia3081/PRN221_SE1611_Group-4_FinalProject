@@ -19,14 +19,13 @@ namespace SE1611_Group_4_Final_Project.Utils
         public enum InvoiceStatus
         {
             Created = 1,
-            Approved,
-            UserConfirmedPaid,
-            ManagerConfirmedPaid,
-            Paid,
             UnPaid,
+            RequirePaid,
+            Paid,
+            Approved,
             Processing,
-            Done,
-            CheckOut
+            CheckOut,
+            Done
         }
         public enum InvoiceType
         {
