@@ -1,0 +1,51 @@
+﻿@page
+@model SE1611_Group_4_Final_Project.Pages.Admin.RoomFurniture.FormModel
+@{
+}
+<form asp-action="POST" enctype="multipart/form-data">
+    <div class="form-group">
+        <div class="input-group">
+            <input asp-for="@Model.RoomFurniture.Id" hidden />
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="form-control-label" asp-for="@Model.RoomFurniture.Name"></label>
+        <div class="input-group">
+            <input asp-for="@Model.RoomFurniture.Name" class="form-control" />
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="form-control-label" asp-for="@Model.RoomFurniture.Room"></label>
+        <div class="input-group">
+            <select asp-for="@Model.RoomFurniture.RoomId" asp-items="@Model.roomSelect" class="form-control" />
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="form-control-label" asp-for="@Model.RoomFurniture.Status"></label>
+        <div class="input-group">
+
+            <input asp-for="@Model.RoomFurniture.Status" class="form-control" />
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="form-control-label">Room Furniture Images</label>
+        <div class="input-group">
+
+            <input type="file" accept="image/*" multiple asp-for="@Model.FormFiles" class="form-control" />
+
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="input-group">
+
+            <input type="submit" class="form-control" value="Save" />
+
+        </div>
+    </div>
+
+
+</form>

@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using SE1611_Group_4_Final_Project.IRepository;
 using SE1611_Group_4_Final_Project.Utils;
 
@@ -11,7 +10,7 @@ namespace SE1611_Group_4_Final_Project.Pages.Room
         private readonly IRepository<Models.Room> _repository;
         public int TotalPage { get; private set; }
         [BindProperty(SupportsGet = true)]
-        public int PageIndex { get; private set; }
+        public int PageIndex { get; set; }
         [BindProperty(SupportsGet = true)]
         public bool? IsAvailable { get; set; }
         public bool HasPreviousPage => (PageIndex > 1);

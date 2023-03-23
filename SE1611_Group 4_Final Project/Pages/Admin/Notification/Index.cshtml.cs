@@ -11,7 +11,7 @@ namespace SE1611_Group_4_Final_Project.Pages
         private readonly IRepository<Models.Notification> _repository;
         public int TotalPage { get; private set; }
         [BindProperty(SupportsGet = true)]
-        public int PageIndex { get; private set; }
+        public int PageIndex { get; set; }
         public bool HasPreviousPage => (PageIndex > 1);
         public bool HasNextPage => (PageIndex < TotalPage);
 

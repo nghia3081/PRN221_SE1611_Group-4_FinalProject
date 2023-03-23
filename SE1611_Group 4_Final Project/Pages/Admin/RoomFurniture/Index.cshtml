@@ -2,3 +2,170 @@
 @model SE1611_Group_4_Final_Project.Pages.RoomFurniture.IndexModel
 @{
 }
+<script>
+    function handler(page) {
+        var a = document.getElementById("pageIdx");
+        a.value = page;
+        document.getElementById("formGet").submit();
+    }
+</script>
+<style>
+    .search-bar {
+        padding: 3%;
+    }
+</style>
+
+
+<div class="card">
+    <div class="row search-bar">
+        <form id="formGet" method="get">
+            <div class="row table-reponsive">
+                <label>Search Room</label>
+                <input class="form-control" asp-for="@Model.query" type="search" onchange="document.getElementById('formGet').submit()" />
+            </div>
+            <input id="pageIdx" asp-for="@Model.PageIndex" hidden />
+        </form>
+    </div>
+    <div class="table-responsive">
+        <table class="table align-items-center mb-0">
+            <thead>
+                <tr class="text-center">
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Image</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Status</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Room</th>
+                    <th class="text-secondary opacity-7"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.RoomFurnitures != null)
+                {
+                    @foreach (var rf in Model.RoomFurnitures)
+                    {
+                        <tr>
+                            <td class="w-25">
+                                <div class="">
+                                    <div id="carouselExampleIndicators@(rf.Id)" class="carousel slide" data-bs-ride="carousel">
+                                        <div class="carousel-indicators">
+                                            @{
+                                                string directory = System.IO.Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\img\roomfurniture");
+                                                directory = $"{directory}\\{rf.Id}";
+                                                var a = true;
+                                                if (System.IO.Directory.Exists(directory))
+                                                {
+                                                    for (int i = 0; i < System.IO.Directory.GetFiles(directory).Length; i++)
+                                                    {
+                                                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="@i" class="@(a?"active":"")" aria-current="true" aria-label="Slide @i"></button>
+                                                        a = false;
+                                                    }
+                                                }
+                                            }
+                                        </div>
+                                        <div class="carousel-inner" style="border-radius:5px">
+                                            @{
+                                                a = true;
+                                                if (System.IO.Directory.Exists(directory))
+                                                {
+                                                    var file = System.IO.Directory.GetFiles(directory) ?? new string[0];
+                                                    foreach (var f in file)
+                                                    {
+                                                        var pathSplit = f.Split('\\');
+                                                        var fileName = pathSplit[pathSplit.Length - 1];
+                                                        <div class="carousel-item @(a?"active":"")">
+                                                            <img src="/img/room/roomfurniture/@rf.Id/@fileName" class="d-block w-100" alt="...">
+                                                        </div>
+                                                        a = false;
+                                                    }
+                                                }
+
+                                            }
+                                        </div>
+                                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators@(rf.Id)" data-bs-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Previous</span>
+                                        </button>
+                                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators@(rf.Id)" data-bs-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Next</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </td>
+                            <td class="p-6">
+                                <div class="d-flex flex-column justify-content-center">
+                                    <h6 class="mb-0 text-xs">@rf.Name</h6>
+                                </div>
+                            </td>
+                            <td>
+                                <p class="text-xs text-wrap text-justify font-weight-bold mb-0">@rf.Status</p>
+                            </td>
+                            <td class="align-middle  text-sm">
+                                <span class="badge badge-sm text-wrap text-justify badge-success">@rf.Room?.Name</span>
+                            </td>
+                            <td class="align-middle">
+                                <a asp-page="Form" asp-route-id="@rf.Id" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                                    Edit
+                                </a>
+                            </td>
+                        </tr>
+                    }
+
+                }
+
+            </tbody>
+        </table>
+    </div>
+    <div class="card">
+        @{
+            var page = Request.Query["PageIndex"].ToString();
+            if (string.IsNullOrEmpty(page)) page = "0";
+            int pageNum = int.Parse(page);
+        }
+        @if (Model.HasPreviousPage || Model.HasNextPage)
+        {
+            <nav aria-label="Page navigation example" class="mt-4">
+                <ul class="pagination justify-content-center">
+                    @if (Model.HasPreviousPage)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" onclick="handler(1)" aria-label="First">
+                                <i class="fa fa-angle-left"></i>
+                                <span class="sr-only">First</span>
+                            </a>
+                        </li>
+                    }
+                    @if (pageNum > 5)
+                    {
+                        <li class="page-item"><a onclick="handler(@(pageNum - 5))" asp-a class="page-link">...</a></li>
+                    }
+
+                    @for (int i = Math.Max(1, pageNum - 2); i <= Math.Min(Model.TotalPage, pageNum + 2); i++)
+                    {
+                        if (i == pageNum)
+                        {
+                            <li class="page-item active"><a class="page-link">@i</a></li>
+                        }
+                        else
+                        {
+                            <li class="page-item"><a class="page-link" onclick="handler(@i)">@i</a></li>
+                        }
+                    }
+                    @if (pageNum < Model.TotalPage - 4)
+                    {
+                        <li class="page-item"><a onclick="handler(@(pageNum + 5))" class="page-link">...</a></li>
+                    }
+                    @if (Model.HasNextPage)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" onclick="handler(@Model.TotalPage)" aria-label="Last">
+                                <i class="fa fa-angle-right"></i>
+                                <span class="sr-only">Last</span>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        }
+    </div>
+</div>
