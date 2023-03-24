@@ -26,6 +26,5 @@ namespace SE1611_Group_4_Final_Project.IRepository
         public Invoice GetInvoice(Guid id);
         public void AddRoomInvoice(Guid roomId, Guid invoiceId);
         public List<Room> GetRoomInvoice(List<Invoice> invoice);
-        public void RemoveRoomfromInvoice(Guid roomId, Guid invoiceId);
     }
 }

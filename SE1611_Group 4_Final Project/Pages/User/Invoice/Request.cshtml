@@ -23,44 +23,56 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach(var item in Model.invoices){
-                        <tr>
-                            <td class="align-middle text-center">
-                                <span class="text-secondary text-xs font-weight-bold">@item.Rooms.FirstOrDefault().Name</span>
-                            </td>
-                            <td class="align-middle text-center">
-                                <span class="text-secondary text-xs font-weight-bold">@Enum.GetName(typeof(Constant.InvoiceType),item.Type)</span>
-                            </td>
-                            <td class="align-middle text-center">
-                                <span class="text-secondary text-xs font-weight-bold text-wrap">@item.Title</span>
-                            </td>
-                            <td class="align-middle text-center text-sm">
-                                    <span class="text-secondary text-xs font-weight-bold">@item.CreatedDate.ToShortDateString()</span>
-                            </td>
-                            @switch(item.Status){
-                                case 7:
-                                        <td class="align-middle text-center">
-                                            <span class="badge bg-gradient-info">@Enum.GetName(typeof(Constant.InvoiceStatus),item.Status)</span>
-                                        </td>
-                                        break;
-                                    case 8:
-                                        <td class="align-middle text-center">
-                                            <span class="badge bg-gradient-success">@Enum.GetName(typeof(Constant.InvoiceStatus),item.Status)</span>
-                                        </td>
-                                        break;
-                                }
-                            <td class="align-middle">
-                                <a asp-page="/User/Invoice/RequestDetail" as class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Detail request">
-                                    Detail
-                                </a>
-                                <label>
-                                    |
-                                </label>
-                                <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Delete request">
-                                    Delete
-                                </a>
-                            </td>
-                        </tr>
+                        @if (Model.invoices.Count() != 0)
+                        {
+                            @foreach (var item in Model.invoices)
+                            {
+                                <tr>
+                                    <td class="align-middle text-center">
+                                        <span class="text-secondary text-xs font-weight-bold">@item.Rooms.FirstOrDefault().Name</span>
+                                    </td>
+                                    <td class="align-middle text-center">
+                                        <span class="text-secondary text-xs font-weight-bold">@Enum.GetName(typeof(Constant.InvoiceType),item.Type)</span>
+                                    </td>
+                                    <td class="align-middle text-center">
+                                        <span class="text-secondary text-xs font-weight-bold text-wrap">@item.Title</span>
+                                    </td>
+                                    <td class="align-middle text-center text-sm">
+                                        <span class="text-secondary text-xs font-weight-bold">@item.CreatedDate.ToShortDateString()</span>
+                                    </td>
+                                    @switch (item.Status)
+                                    {
+                                        case 6:
+                                            <td class="align-middle text-center">
+                                                <span class="badge bg-gradient-info">@Enum.GetName(typeof(Constant.InvoiceStatus),item.Status)</span>
+                                            </td>
+                                            break;
+                                        case 7:
+                                            <td class="align-middle text-center">
+                                                <span class="badge bg-gradient-info">@Enum.GetName(typeof(Constant.InvoiceStatus),item.Status)</span>
+                                            </td>
+                                            break;
+                                        case 8:
+                                            <td class="align-middle text-center">
+                                                <span class="badge bg-gradient-success">@Enum.GetName(typeof(Constant.InvoiceStatus),item.Status)</span>
+                                            </td>
+                                            break;
+                                    }
+                                    <td class="align-middle">
+                                        <a asp-page="/User/Invoice/RequestDetail" asp-route-id="@item.Id" as class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Detail request">
+                                            Detail
+                                        </a>
+                                        <label>
+                                            |
+                                        </label>
+
+                                        <a asp-page-handler="Delete" asp-route-id="@item.Id" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Delete request">
+                                            Delete
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+
                         }
                     </tbody>
                 </table>

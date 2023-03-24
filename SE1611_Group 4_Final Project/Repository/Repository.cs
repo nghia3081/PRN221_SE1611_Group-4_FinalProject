@@ -108,7 +108,10 @@ namespace SE1611_Group_4_Final_Project.Repository
 
         public List<Invoice> FilterRoomInvoices(int month, int year, Guid userID)
         {
-            var result = _motelManagementContext.Invoices.Include(i => i.Rooms).Where(x => x.UserId == userID && x.Type == (int)Constant.InvoiceType.Living && x.Status == (int)Constant.InvoiceStatus.Paid).AsQueryable();
+            var result = _motelManagementContext.Invoices.Include(i => i.Rooms).Where(x => x.UserId == userID
+            && x.Type == (int)Constant.InvoiceType.Living
+            && x.Status == (int)Constant.InvoiceStatus.Accepted
+            && x.GrandTotal != 0).AsQueryable();
 
             if (month != -1)
             {
@@ -124,8 +127,12 @@ namespace SE1611_Group_4_Final_Project.Repository
         }
         public List<Invoice> FilterServiceInvoices(int month, int year, Guid userID)
         {
-            var result = _motelManagementContext.Invoices.Include(i => i.Rooms).Where(x => x.UserId == userID && x.Type == (int)Constant.InvoiceType.Electricity
-            || x.Type == (int)Constant.InvoiceType.Water || x.Type == (int)Constant.InvoiceType.Internet && x.Status == (int)Constant.InvoiceStatus.Paid).AsQueryable();
+            var result = _motelManagementContext.Invoices.Include(i => i.Rooms).Where(x => x.UserId == userID 
+            && x.Type == (int)Constant.InvoiceType.Electricity
+            || x.Type == (int)Constant.InvoiceType.Water 
+            || x.Type == (int)Constant.InvoiceType.Internet 
+            && x.Status == (int)Constant.InvoiceStatus.Accepted 
+            && x.GrandTotal != 0).AsQueryable();
 
             if (month != -1)
             {
@@ -195,12 +202,6 @@ namespace SE1611_Group_4_Final_Project.Repository
                 }
             }
             return rooms.Distinct().ToList();
-        }
-        public void RemoveRoomfromInvoice(Guid roomId, Guid invoiceId)
-        {
-            var invoice = _motelManagementContext.Invoices.Where(x => x.Id == invoiceId).First();
-            var room = _motelManagementContext.Rooms.Where(x => x.Id == roomId).FirstOrDefault();
-            invoice.Rooms.Remove(room);
         }
     }
 }

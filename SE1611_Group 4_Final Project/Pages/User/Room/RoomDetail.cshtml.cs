@@ -41,14 +41,15 @@ namespace SE1611_Group_4_Final_Project.Pages
                 SuggestedRooms = JsonConvert.DeserializeObject<List<Models.Room>>(json);
             }
             Room = _roomRepository.Find(Guid.Parse(id));
-            Models.Invoice invoice = _invoiceRepository.FindwithQuery(x => x.Status == ((int)Constant.InvoiceStatus.Created) && x.UserId == user.Id).FirstOrDefault();
-            if(invoice == null) {
+            Models.Invoice invoice = _invoiceRepository.FindwithQuery(x => x.Status == ((int)Constant.InvoiceStatus.Booked) && x.UserId == user.Id).FirstOrDefault();
+            if (invoice == null)
+            {
                 invoice = new Models.Invoice();
                 invoice.UserId = user.Id;
                 invoice.Id = Guid.NewGuid();
-                invoice.CreatedDate= DateTime.Now;
-                invoice.Status = (int)Constant.InvoiceStatus.Created;
-                invoice.Title = "Booking_Room"+"_"+user.Name.ToString()+"_"+DateTime.Now.ToString();
+                invoice.CreatedDate = DateTime.Now;
+                invoice.Status = (int)Constant.InvoiceStatus.Waiting;
+                invoice.Title = "Booking_Room" + "_" + Room.Name + user.Name.ToString() + "_" + DateTime.Now.ToString();
                 invoice.GrandTotal = Room.Price;
                 _invoiceRepository.Add(invoice);
             }

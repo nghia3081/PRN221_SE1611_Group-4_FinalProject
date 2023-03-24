@@ -32,7 +32,7 @@ namespace SE1611_Group_4_Final_Project.Pages.Invoice
         public IActionResult OnGetConfirmBooking(Guid id)
         {
             var invoice = _repository.Find(id);
-            invoice.Status = (int)Constant.InvoiceStatus.Approved;
+            invoice.Status = (int)Constant.InvoiceStatus.Accepted;
             _repository.Update(invoice);
             OnGet();
             return RedirectToPage("/Admin/Invoice/Index");

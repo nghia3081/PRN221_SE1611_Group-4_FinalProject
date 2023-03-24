@@ -80,7 +80,50 @@
                             <div class="bg-gradient-primary border-radius-lg h-100">
                                 <img src="~/img/shapes/waves-white.svg" class="position-absolute h-100 w-50 top-0 d-lg-block d-none" alt="waves">
                                 <div class="position-relative d-flex align-items-center justify-content-center h-100">
-                                    <img class="w-100 position-relative z-index-2 pt-4" src="wwwroot/img/room/{roomId}" alt="rocket">
+                                    <div id="carouselExampleIndicators@(item.Id)" class="carousel slide" data-bs-ride="carousel">
+                                        <div class="carousel-indicators">
+                                            @{
+                                                string directory = System.IO.Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\img\room");
+                                                directory = $"{directory}\\{item.Id}";
+                                                var a = true;
+                                                if (System.IO.Directory.Exists(directory))
+                                                {
+                                                    for (int i = 0; i < System.IO.Directory.GetFiles(directory).Length; i++)
+                                                    {
+                                                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="@i" class="@(a?"active":"")" aria-current="true" aria-label="Slide @i"></button>
+                                                        a = false;
+                                                    }
+                                                }
+                                            }
+                                        </div>
+                                        <div class="carousel-inner" style="border-radius:5px">
+                                            @{
+                                                a = true;
+                                                if (System.IO.Directory.Exists(directory))
+                                                {
+                                                    var file = System.IO.Directory.GetFiles(directory) ?? new string[0];
+                                                    foreach (var f in file)
+                                                    {
+                                                        var pathSplit = f.Split('\\');
+                                                        var fileName = pathSplit[pathSplit.Length - 1];
+                                                        <div class="carousel-item @(a?"active":"")">
+                                                            <img src="/img/room/@item.Id/@fileName" class="d-block w-100" alt="...">
+                                                        </div>
+                                                        a = false;
+                                                    }
+                                                }
+
+                                            }
+                                        </div>
+                                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators@(item.Id)" data-bs-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Previous</span>
+                                        </button>
+                                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators@(item.Id)" data-bs-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Next</span>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -91,10 +134,11 @@
     </div>
 }
 
-@if(Model.HasPreviousPage || Model.HasNextPage){
+@if (Model.HasPreviousPage || Model.HasNextPage)
+{
     <nav aria-label="Page navigation example" class="mt-4">
         <ul class="pagination justify-content-center">
-            @if(Model.HasPreviousPage)
+            @if (Model.HasPreviousPage)
             {
                 <li class="page-item">
                     <a class="page-link" asp-page="/User/Room/RoomPage" asp-route-pageIndex="1" aria-label="First">

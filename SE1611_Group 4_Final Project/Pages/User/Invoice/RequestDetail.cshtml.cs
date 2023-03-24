@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using SE1611_Group_4_Final_Project.IRepository;
 
 namespace SE1611_Group_4_Final_Project.Pages.User.Invoice
@@ -15,7 +16,7 @@ namespace SE1611_Group_4_Final_Project.Pages.User.Invoice
         }
         public void OnGet(string id)
         {
-            invoice = _invoiceRepository.Find(Guid.Parse(id));
+            invoice = _invoiceRepository.GetDbSet().Include(x => x.Rooms).Where(x => x.Id == Guid.Parse(id)).First();
         }
     }
 }

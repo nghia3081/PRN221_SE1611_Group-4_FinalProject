@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using SE1611_Group_4_Final_Project.IRepository;
 
@@ -8,11 +10,13 @@ namespace SE1611_Group_4_Final_Project.Pages.User.Invoice
     {
         public readonly ILogger<RequestModel> _logger;
         private readonly IRepository<Models.Invoice> _invoiceRepository;
+        private readonly IRepository<Models.Room> _roomRepository;
         public List<Models.Invoice> invoices { get; set; }
         public Models.User user { get; set; }
-        public RequestModel(ILogger<RequestModel> logger, IRepository<Models.Invoice> InvoiceRepository)
+        public RequestModel(ILogger<RequestModel> logger, IRepository<Models.Invoice> InvoiceRepository, IRepository<Models.Room> RoomRepository)
         {
             _invoiceRepository = InvoiceRepository;
+            _roomRepository = RoomRepository;
             _logger = logger;
         }
         public void OnGet()
@@ -22,7 +26,13 @@ namespace SE1611_Group_4_Final_Project.Pages.User.Invoice
             {
                 user = JsonConvert.DeserializeObject<Models.User>(jsonUser);
             }
-            invoices = _invoiceRepository.FindwithQuery(x => x.GrandTotal == 0 && x.UserId == user.Id).ToList();
+            invoices = _invoiceRepository.GetDbSet().Include(x => x.Rooms).Where(x => x.GrandTotal == 0 && x.UserId == user.Id).ToList();
+        }
+        public IActionResult OnGetDelete(Guid id)
+        {
+            Models.Invoice invoice = _invoiceRepository.GetDbSet().Include(x => x.Rooms).Where(x => x.Id == id).FirstOrDefault();
+            _invoiceRepository.Delete(invoice).Wait();
+            return RedirectToPage("/User/Invoice/Request");
         }
     }
 }

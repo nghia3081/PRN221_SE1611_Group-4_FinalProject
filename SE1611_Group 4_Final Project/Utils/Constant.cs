@@ -17,11 +17,10 @@
         }
         public enum InvoiceStatus
         {
-            Created = 1,
-            UnPaid,
-            RequirePaid,
-            Paid,
-            Approved,
+            Booked = 1,
+            Waiting,
+            Accepted,
+            Rejected,
             Processing,
             CheckOut,
             Done

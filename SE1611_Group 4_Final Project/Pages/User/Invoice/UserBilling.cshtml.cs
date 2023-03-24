@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using SE1611_Group_4_Final_Project.IRepository;
+using SE1611_Group_4_Final_Project.Models;
+using SE1611_Group_4_Final_Project.Utils;
 
 namespace SE1611_Group_4_Final_Project.Pages
 {
@@ -25,6 +27,7 @@ namespace SE1611_Group_4_Final_Project.Pages
 
         public List<Models.Invoice> RoomInvoices { get; set; }
         public List<Models.Invoice> ServiceInvoices { get; set; }
+        public List<Models.Invoice> ConfirmInvoice { get; set; }
         public List<Models.Room> Rooms { get; set; }
         public Models.User user { get; set; }
 

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using SE1611_Group_4_Final_Project.IRepository;
 using SE1611_Group_4_Final_Project.Utils;
@@ -34,27 +35,32 @@ namespace SE1611_Group_4_Final_Project.Pages.User.Invoice
             Type = new SelectList(type);
             var invoices = _invoiceRepository.FindwithQuery(x => x.UserId == user.Id).ToList();
             var room = _roomRepository.GetRoomInvoice(invoices);
-            Room = new SelectList(room.Select(x => x.Name));
+            Room = new SelectList(room, "Id", "Name");
         }
-        public IActionResult OnPost(string type, string title, string room)
+        public IActionResult OnPost(string type, string title, Guid roomId)
         {
             string jsonUser = HttpContext.Session.GetString("User");
             if (!string.IsNullOrEmpty(jsonUser))
             {
                 user = JsonConvert.DeserializeObject<Models.User>(jsonUser);
             }
+
+            var roomRef = _roomRepository.GetDbSet().Include(r => r.Invoices).FirstOrDefault(r => r.Id == roomId);
+
             Models.Invoice invoice = new Models.Invoice();
             invoice.Id = Guid.NewGuid();
             invoice.CreatedDate= DateTime.Now;
             invoice.UserId = user.Id;
             invoice.GrandTotal = 0;
-            invoice.User = user;
-            invoice.Rooms.Add(_roomRepository.FindwithQuery(x => x.Name.Equals(room)).First());
-            invoice.Title = "Request_" + room +"_"+ type;
+           
+            
+            invoice.Title = "Request_" + roomRef.Name +"_"+ type;
             invoice.Description = title;
             invoice.Type = (int)Enum.Parse(typeof(Constant.InvoiceType), type);
             invoice.Status = (int)Constant.InvoiceStatus.Processing;
-            _invoiceRepository.Add(invoice).Wait();
+            roomRef.Invoices.Add(invoice);
+            invoice.Rooms.Add(roomRef);
+            _roomRepository.Update(roomRef).Wait();
             return RedirectToPage("/User/Invoice/Request");
         }
     }
