@@ -40,7 +40,7 @@ namespace SE1611_Group_4_Final_Project.Pages.User.Room
                 user = JsonConvert.DeserializeObject<Models.User>(jsonUser);
             }
             var InvoiceId = _invoiceRepository.FindwithQuery(x => x.Status == (int)Constant.InvoiceStatus.Created && x.UserId == user.Id).Select(x => x.Id).First();
-            Models.Invoice invoice = _invoiceRepository.Find(InvoiceId);
+            Models.Invoice invoice = _invoiceRepository.GetDbSet().Where(x => x.Id == InvoiceId).Include(x => x.Rooms).FirstOrDefault();
             var room = _roomRepository.FindwithQuery(x => x.Id == Guid.Parse(id)).First();
             invoice.Rooms.Remove(room);
             _invoiceRepository.Update(invoice).Wait();

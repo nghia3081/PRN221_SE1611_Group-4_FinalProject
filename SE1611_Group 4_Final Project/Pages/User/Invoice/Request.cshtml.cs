@@ -31,9 +31,8 @@ namespace SE1611_Group_4_Final_Project.Pages.User.Invoice
         }
         public IActionResult OnGetDelete(Guid id)
         {
-            Models.Invoice invoice = _invoiceRepository.Find(id);
-            invoice.Rooms.Clear();
-            _invoiceRepository.Delete(invoice);
+            Models.Invoice invoice = _invoiceRepository.GetDbSet().Include(x => x.Rooms).Where(x => x.Id == id).FirstOrDefault();
+            _invoiceRepository.Delete(invoice).Wait();
             return RedirectToPage("/User/Invoice/Request");
         }
     }
