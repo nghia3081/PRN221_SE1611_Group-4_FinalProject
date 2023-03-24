@@ -40,11 +40,17 @@
                                 <tr>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Title</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Grand Total</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Description</th>
+
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">User</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Room</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Created Date</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Living From</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Living To</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Description</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Paid Date</th>
+                                    <th class="text-secondary opacity-7"></th>
+                                    <th class="text-secondary opacity-7"></th>
                                     <th class="text-secondary opacity-7"></th>
                                 </tr>
                             </thead>
@@ -62,21 +68,31 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <p class="text-xs font-weight-bold mb-0 text-wrap">$@invoice.GrandTotal</p>
+                                                <p class="text-xs font-weight-bold mb-0 text-wrap">$@invoice.GrandTotal.ToString("#.##")</p>
                                             </td>
-                                            <td class="align-middle text-center">
-                                                <p class="text-xs font-weight-bold mb-0 text-wrap">@invoice.Description</p>
-
+                                            <td>
+                                                <p class="text-xs font-weight-bold mb-0 text-wrap text-center">@invoice.User?.Name</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-xs font-weight-bold mb-0 text-wrap text-center">@String.Join(',',invoice.Rooms?.Select(r => r.Name))</p>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <p class="text-xs font-weight-bold mb-0 text-wrap">@invoice.CreatedDate</p>
 
                                             </td>
+                                            <td class="align-middle text-center">
+                                                <p class="text-xs font-weight-bold mb-0 text-wrap">@Enum.GetValues(typeof(SE1611_Group_4_Final_Project.Utils.Constant.InvoiceStatus)).GetValue((invoice.Status ?? 1)-1)</p>
+
+                                            </td>
                                             <td class="align-middle text-center text-sm">
-                                                <span class="badge badge-sm bg-gradient-success">@invoice.From</span>
+                                                <span class="text-secondary text-xs font-weight-bold">@invoice.From</span>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <span class="text-secondary text-xs font-weight-bold">@invoice.To</span>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <p class="text-xs font-weight-bold mb-0 text-wrap">@invoice.Description</p>
+
                                             </td>
                                             <td class="align-middle text-center">
                                                 <span class="text-secondary text-xs font-weight-bold">@invoice.PaidDate</span>
@@ -88,7 +104,23 @@
                                                 </a>
 
                                             </td>
+                                            @if (invoice.Status != (int)SE1611_Group_4_Final_Project.Utils.Constant.InvoiceStatus.Accepted && invoice.Status != (int)SE1611_Group_4_Final_Project.Utils.Constant.InvoiceStatus.Rejected)
+                                            {
+                                                <td class="align-middle">
 
+                                                    <a asp-page-handler="Accept" asp-route-id="@invoice.Id" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Accept Booking">
+                                                        Accept Booking
+                                                    </a>
+
+                                                </td>
+                                                <td class="align-middle">
+
+                                                    <a asp-page-handler="Reject" asp-route-id="@invoice.Id" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Accept Booking">
+                                                        Reject Booking
+                                                    </a>
+
+                                                </td>
+                                            }
                                         </tr>
                                     }
 

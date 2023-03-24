@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using SE1611_Group_4_Final_Project.IRepository;
 using SE1611_Group_4_Final_Project.Utils;
 
@@ -22,27 +23,44 @@ namespace SE1611_Group_4_Final_Project.Pages.Invoice
         {
             _repository = repository;
         }
-        public void OnGet()
+        public IActionResult OnGet()
         {
+            if (!Constant.IsAdmin(HttpContext)) return RedirectToPage("/Index");
             TotalPage = Constant.GetTotalPage(_repository.GetDbSet().Count(), PageSize);
-            Invoices = _repository.GetDbSet();
+            Invoices = _repository.GetDbSet().Include(i => i.Rooms).Include(i => i.User);
             if (!query.IsNullOrEmpty()) Invoices = Invoices.Where(i => i.Title.Contains(query) || i.Description.Contains(query) || i.GrandTotal.ToString().Contains(query));
+            Invoices = Invoices.OrderByDescending(i => i.CreatedDate);
             Invoices = Invoices.Skip(Constant.GetStartIndexPage(PageIndex, PageSize)).Take(PageSize);
+            return Page();
         }
-        public IActionResult OnGetConfirmBooking(Guid id)
+        public IActionResult OnGetAccept(Guid id)
         {
-            var invoice = _repository.Find(id);
+            if (!Constant.IsAdmin(HttpContext)) return RedirectToPage("/Index");
+            var invoice = _repository.GetDbSet().Include(i => i.Rooms).FirstOrDefault(i => i.Id == id);
             invoice.Status = (int)Constant.InvoiceStatus.Accepted;
-            _repository.Update(invoice);
-            OnGet();
-            return RedirectToPage("/Admin/Invoice/Index");
+            foreach (var r in invoice.Rooms)
+            {
+                r.IsAvailable = false;
+            }
+            _repository.GetDbSet<Models.Room>().UpdateRange(invoice.Rooms);
+            _repository.GetDbSet().Update(invoice).Context.SaveChanges();
+            
+            return OnGet();
         }
-        public IActionResult OnGetConfirmPaid(Guid id)
+        public IActionResult OnGetReject(Guid id)
         {
-            var invoice = _repository.Find(id);
-            _repository.Update(invoice);
+            if (!Constant.IsAdmin(HttpContext)) return RedirectToPage("/Index");
+
+            var invoice = _repository.GetDbSet().Include(i => i.Rooms).FirstOrDefault(i => i.Id == id);
+            invoice.Status = (int)Constant.InvoiceStatus.Rejected;
+            foreach (var r in invoice.Rooms)
+            {
+                r.IsAvailable = true;
+            }
+            _repository.GetDbSet<Models.Room>().UpdateRange(invoice.Rooms);
+            _repository.GetDbSet().Update(invoice).Context.SaveChanges();
             OnGet();
-            return RedirectToPage("/Admin/Invoice/Index");
+            return OnGet();
         }
     }
 }

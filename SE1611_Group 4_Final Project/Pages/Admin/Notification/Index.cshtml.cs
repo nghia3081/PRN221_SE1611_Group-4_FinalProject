@@ -26,6 +26,7 @@ namespace SE1611_Group_4_Final_Project.Pages
 
         public IActionResult OnGet()
         {
+            if (!Constant.IsAdmin(HttpContext)) return RedirectToPage("/Index");
             TotalPage = Constant.GetTotalPage(_repository.GetDbSet().Count(), PageSize);
             Notifications = _repository.GetDbSet().Include(notif => notif.Rooms);
             if (!query.IsNullOrEmpty()) Notifications = Notifications.Where(notif => notif.Title.Contains(query) || notif.Description.Contains(query));
@@ -34,6 +35,7 @@ namespace SE1611_Group_4_Final_Project.Pages
         }
         public IActionResult OnGetDelete(Guid id)
         {
+            if (!Constant.IsAdmin(HttpContext)) return RedirectToPage("/Index");
             _repository.Delete(id).Wait();
             OnGet();
             return Page();

@@ -24,8 +24,9 @@ namespace SE1611_Group_4_Final_Project.Pages.Room
         {
             _repository = repository;
         }
-        public async Task OnGet()
+        public async Task<IActionResult> OnGet()
         {
+            if (!Constant.IsAdmin(HttpContext)) return RedirectToPage("/Index");
             Rooms = _repository.GetDbSet();
             if (IsAvailable.HasValue)
             {
@@ -36,6 +37,7 @@ namespace SE1611_Group_4_Final_Project.Pages.Room
 
             TotalPage = Constant.GetTotalPage(Rooms.Count(), PageSize);
             Rooms = Rooms.Skip(Constant.GetStartIndexPage(PageIndex, PageSize)).Take(PageSize);
+            return Page();
 
         }
     }

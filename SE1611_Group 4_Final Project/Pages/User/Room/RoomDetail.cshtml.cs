@@ -51,14 +51,14 @@ namespace SE1611_Group_4_Final_Project.Pages
                 invoice.Status = (int)Constant.InvoiceStatus.Waiting;
                 invoice.Title = "Booking_Room" + "_" + Room.Name + user.Name.ToString() + "_" + DateTime.Now.ToString();
                 invoice.GrandTotal = Room.Price;
-                _invoiceRepository.Add(invoice);
+                _invoiceRepository.Add(invoice).Wait();
             }
             if (Room.IsAvailable == true)
             {
                 invoice.Rooms.Add(Room);
                 _invoiceRepository.AddRoomInvoice(Room.Id, invoice.Id);
                 Room.IsAvailable = false;
-                _roomRepository.Update(Room);
+                _roomRepository.Update(Room).Wait();
             }
         }
     }

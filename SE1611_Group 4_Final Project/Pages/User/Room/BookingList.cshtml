@@ -2,7 +2,20 @@
 @model SE1611_Group_4_Final_Project.Pages.User.Room.BookingListModel
 @{
 }
+<script>
+    function calMoney(){
+       var from = document.getElementById('from');
+       var to = document.getElementById('to');
+       console.log(from.value);
+       console.log(to.value);
 
+       var range = new Date(to.value).getMonth() -  new Date(from.value).getMonth();
+       console.log(range);
+
+       var grand = document.getElementById('GrandTotal');
+       grand.value = range*@Model.GrandTotal;
+    }
+</script>
 <div class="card card-frame">
     <div class="card-body">
         <div class="card">
@@ -12,13 +25,19 @@
                     <div class="col-3 py-3 ps-0">
                         <p class="text-sm mb-0 text-capitalize font-weight-bold">From</p>
                         <div class="input-group">
-                            <input class="form-control" type="date" name="from" id="from" />
+                            <input class="form-control" type="date" name="from" id="from" onchange="calMoney()" />
                         </div>
                     </div>
 
                     <div class="col-3 py-3 ps-0">
                         <p class="text-sm mb-0 text-capitalize font-weight-bold">To</p>
-                        <input class="form-control" type="date" name="to" id="to" />
+                        <input class="form-control" type="date" name="to" id="to" onchange="calMoney()"/>
+                    </div>
+                    <div class="col-3 py-3 ps-0">
+                        <p class="text-sm mb-0 text-capitalize font-weight-bold">GrandTotal</p>
+                        <div class="input-group">
+                            <input class="form-control" asp-for="@Model.GrandTotal" value="@Model.GrandTotal" disabled />
+                        </div>
                     </div>
                 </div>
                 <button class="btn bg-gradient-primary" type="submit">Booking</button>

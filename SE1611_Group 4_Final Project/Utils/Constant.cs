@@ -1,4 +1,7 @@
-﻿namespace SE1611_Group_4_Final_Project.Utils
+﻿using Newtonsoft.Json;
+using SE1611_Group_4_Final_Project.Models;
+
+namespace SE1611_Group_4_Final_Project.Utils
 {
     public class Constant
     {
@@ -21,9 +24,6 @@
             Waiting,
             Accepted,
             Rejected,
-            Processing,
-            CheckOut,
-            Done
         }
         public enum InvoiceType
         {
@@ -39,6 +39,14 @@
             CrashReported,
             Crashed,
         }
-        public string Content { get;set; }
+        public string Content { get; set; }
+        public static bool IsAdmin(HttpContext context)
+        {
+            if (!context.Session.Keys.Contains("User")) return false;
+            string userJson = context.Session.GetString("User");
+            var user = JsonConvert.DeserializeObject<User>(userJson);
+            if (user == null) return false;
+            return user.IsAdmin ?? false;
+        }
     }
 }
