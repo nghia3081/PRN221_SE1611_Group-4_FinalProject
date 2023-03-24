@@ -15,28 +15,46 @@
             </div>
             <div class="card-body p-7">
 
-                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                <div id="carouselExampleIndicators@(Model.Room.Id)" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-indicators">
-                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                        @{
+                            string directory = System.IO.Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\img\room");
+                            directory = $"{directory}\\{Model.Room.Id}";
+                            var a = true;
+                            if (System.IO.Directory.Exists(directory))
+                            {
+                                for (int i = 0; i < System.IO.Directory.GetFiles(directory).Length; i++)
+                                {
+                                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="@i" class="@(a?"active":"")" aria-current="true" aria-label="Slide @i"></button>
+                                    a = false;
+                                }
+                            }
+                        }
                     </div>
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <img src="https://images.unsplash.com/photo-1537511446984-935f663eb1f4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1920&q=80" class="d-block w-100" alt="...">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1920&q=80" class="d-block w-100" alt="...">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="https://images.unsplash.com/photo-1552793494-111afe03d0ca?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1920&q=80" class="d-block w-100" alt="...">
-                        </div>
+                    <div class="carousel-inner" style="border-radius:5px">
+                        @{
+                            a = true;
+                            if (System.IO.Directory.Exists(directory))
+                            {
+                                var file = System.IO.Directory.GetFiles(directory) ?? new string[0];
+                                foreach (var f in file)
+                                {
+                                    var pathSplit = f.Split('\\');
+                                    var fileName = pathSplit[pathSplit.Length - 1];
+                                    <div class="carousel-item @(a?"active":"")">
+                                        <img src="/img/room/@Model.Room.Id/@fileName" class="d-block w-100" alt="...">
+                                    </div>
+                                    a = false;
+                                }
+                            }
+
+                        }
                     </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators@(Model.Room.Id)" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Previous</span>
                     </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators@(Model.Room.Id)" data-bs-slide="next">
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Next</span>
                     </button>

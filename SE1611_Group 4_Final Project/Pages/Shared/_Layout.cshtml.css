@@ -24920,3 +24920,7 @@ pre[class*="language-"] {
 }
 
 /*# sourceMappingURL=dashboard-free.css.map */
+.search {
+    margin: 0 1%;
+    padding: 5%;
+}

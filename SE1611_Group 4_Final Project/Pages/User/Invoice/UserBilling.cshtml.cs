@@ -55,16 +55,8 @@ namespace SE1611_Group_4_Final_Project.Pages
                 if (filterYear != null) { year = Int32.Parse(filterYear); } else { year = -1; }
                 RoomInvoices = _invoiceRepository.FilterRoomInvoices(month, year, user.Id);
                 ServiceInvoices = _invoiceRepository.FilterServiceInvoices(month, year, user.Id);
-                ConfirmInvoice = _invoiceRepository.FilterConfirmInvoices(month, year, user.Id);
                 if (id != null) { Rooms = _roomRepository.GetRoomsbyInvoice(Guid.Parse(id)); }
             }
-        }
-        public IActionResult OnGetConfirm(Guid id)
-        {
-            Models.Invoice invoice = _invoiceRepository.Find(id);
-            invoice.Status = (int)Constant.InvoiceStatus.Paid;
-            _invoiceRepository.Update(invoice);
-            return RedirectToPage("/User/Invoice/UserBilling");
         }
     }
 }

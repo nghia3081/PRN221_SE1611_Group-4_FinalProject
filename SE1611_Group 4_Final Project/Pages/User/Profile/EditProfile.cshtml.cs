@@ -3,10 +3,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SE1611_Group_4_Final_Project.IRepository;
-using SE1611_Group_4_Final_Project.Models;
-using SE1611_Group_4_Final_Project.Utils;
-using SendGrid.Helpers.Mail;
-using System.IO;
 
 namespace SE1611_Group_4_Final_Project.Pages
 {

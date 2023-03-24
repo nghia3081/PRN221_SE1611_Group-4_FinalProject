@@ -1,0 +1,66 @@
+﻿@page
+@model SE1611_Group_4_Final_Project.Pages.Admin.RoomFurniture.FormModel
+@{
+}
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header pb-0">
+                    <h6>Room furniture table <a asp-page="Index"><i class="fa fa-arrow-left"></i></a></h6>
+                </div>
+                <div class="card-body px-0 pt-0 pb-2">
+                    <div class=" p-5">
+                        <form asp-action="POST" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input asp-for="@Model.RoomFurniture.Id" hidden />
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="@Model.RoomFurniture.Name"></label>
+                                <div class="input-group">
+                                    <input asp-for="@Model.RoomFurniture.Name" class="form-control" />
+
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-control-label" asp-for="@Model.RoomFurniture.Room"></label>
+                                <div class="input-group">
+                                    <select asp-for="@Model.RoomFurniture.RoomId" asp-items="@Model.roomSelect" class="form-control" ></select>
+
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-control-label" asp-for="@Model.RoomFurniture.Status"></label>
+                                <div class="input-group">
+
+                                    <select asp-for="@Model.RoomFurniture.Status" class="form-control" asp-items="@Model.statusSelect" ></select>
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label">Room Furniture Images</label>
+                                <div class="input-group">
+
+                                    <input type="file" accept="image/*" multiple asp-for="@Model.FormFiles" class="form-control" />
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+
+                                    <input type="submit" class="form-control" value="Save" />
+
+                                </div>
+                            </div>
+
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

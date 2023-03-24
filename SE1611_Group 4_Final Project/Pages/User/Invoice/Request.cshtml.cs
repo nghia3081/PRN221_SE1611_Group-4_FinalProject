@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using SE1611_Group_4_Final_Project.IRepository;
-using SE1611_Group_4_Final_Project.Models;
 
 namespace SE1611_Group_4_Final_Project.Pages.User.Invoice
 {

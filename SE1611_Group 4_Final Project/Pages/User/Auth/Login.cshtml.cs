@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System.Text.Json;
 using SE1611_Group_4_Final_Project.IRepository;
 
 namespace SE1611_Group_4_Final_Project.Pages
@@ -14,18 +16,25 @@ namespace SE1611_Group_4_Final_Project.Pages
         public string Password { get; set; }
         public string ErrorMessage { get; set; }
         private readonly IRepository<Models.User> _userRepository;
+        private readonly IRepository<Models.Invoice> _invoiceRepository;
+        private readonly IRepository<Models.Room> _roomRepository;
+        private readonly IRepository<Models.Notification> _notificationRepository;
         public readonly ILogger<LoginModel> _logger;
-        public LoginModel(ILogger<LoginModel> logger, IRepository<Models.User> userRepository)
+        public LoginModel(ILogger<LoginModel> logger, IRepository<Models.User> userRepository, IRepository<Models.Invoice> invoiceRepository, IRepository<Models.Room> roomRepository, IRepository<Models.Notification> notificationRepository)
         {
             _userRepository = userRepository;
+            _invoiceRepository = invoiceRepository;
+            _roomRepository = roomRepository;
             _logger = logger;
+            _notificationRepository = notificationRepository;
         }
 
         public void OnGet()
         {
 
         }
-        public IActionResult OnPost() {
+        public IActionResult OnPost()
+        {
             var user = _userRepository.FindUserByEmailandPassword(Email, Password);
 
             if (user != null)

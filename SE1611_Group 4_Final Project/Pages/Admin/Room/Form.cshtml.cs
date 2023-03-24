@@ -10,7 +10,6 @@ namespace SE1611_Group_4_Final_Project.Pages.Room
         [BindProperty]
         public Models.Room Room { get; set; }
         [BindProperty]
-
         public IFormFileCollection FormFiles { get; set; }
         public FormModel(IRepository<Models.Room> context)
         {
@@ -23,7 +22,7 @@ namespace SE1611_Group_4_Final_Project.Pages.Room
                 Room = _context.Find(id);
             }
         }
-        public void OnPost()
+        public IActionResult OnPost()
         {
             if (Room.Id == Guid.Empty)
             {
@@ -38,15 +37,22 @@ namespace SE1611_Group_4_Final_Project.Pages.Room
             {
                 UploadRoomImage(Room.Id);
             }
+            return RedirectToPage("/Admin/Room/Index");
         }
         private async Task UploadRoomImage(Guid roomId)
         {
             if (FormFiles.Count == 0) return;
             await Task.Run(() =>
             {
-                var directory = $"../img/room/{roomId}";
+                var directory = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\img");
+                 directory = $"{directory}/room/{roomId}";
                 System.IO.Directory.CreateDirectory(directory);
                 var i = 1;
+                foreach(var file in Directory.GetFiles(directory))
+                {
+                    System.IO.File.Delete(file);
+                }
+              
                 foreach (var file in FormFiles)
                 {
                     using MemoryStream ms = new();

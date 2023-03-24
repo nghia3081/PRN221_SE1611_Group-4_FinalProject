@@ -1,6 +1,4 @@
-﻿using SE1611_Group_4_Final_Project.Models;
-
-namespace SE1611_Group_4_Final_Project.Utils
+﻿namespace SE1611_Group_4_Final_Project.Utils
 {
     public class Constant
     {
@@ -8,6 +6,7 @@ namespace SE1611_Group_4_Final_Project.Utils
         public const int expireForgotTokenMinute = 15;
         public static int GetStartIndexPage(int page, int pageSize)
         {
+            page = page == 0 ? 0 : page - 1;
             return page * pageSize;
         }
         public static int GetTotalPage(int totalRow, int pageSize)
@@ -18,11 +17,10 @@ namespace SE1611_Group_4_Final_Project.Utils
         }
         public enum InvoiceStatus
         {
-            Created = 1,
-            UnPaid,
-            RequirePaid,
-            Paid,
-            Approved,
+            Booked = 1,
+            Waiting,
+            Accepted,
+            Rejected,
             Processing,
             CheckOut,
             Done

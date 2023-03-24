@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using SE1611_Group_4_Final_Project.IRepository;
-using SE1611_Group_4_Final_Project.Models;
 using SE1611_Group_4_Final_Project.Utils;
 
 namespace SE1611_Group_4_Final_Project.Pages.User.Invoice

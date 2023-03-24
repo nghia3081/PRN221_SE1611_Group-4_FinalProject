@@ -110,7 +110,7 @@ namespace SE1611_Group_4_Final_Project.Repository
         {
             var result = _motelManagementContext.Invoices.Include(i => i.Rooms).Where(x => x.UserId == userID
             && x.Type == (int)Constant.InvoiceType.Living
-            && x.Status == (int)Constant.InvoiceStatus.Approved
+            && x.Status == (int)Constant.InvoiceStatus.Accepted
             && x.GrandTotal != 0).AsQueryable();
 
             if (month != -1)
@@ -131,26 +131,8 @@ namespace SE1611_Group_4_Final_Project.Repository
             && x.Type == (int)Constant.InvoiceType.Electricity
             || x.Type == (int)Constant.InvoiceType.Water 
             || x.Type == (int)Constant.InvoiceType.Internet 
-            && x.Status == (int)Constant.InvoiceStatus.Approved 
+            && x.Status == (int)Constant.InvoiceStatus.Accepted 
             && x.GrandTotal != 0).AsQueryable();
-
-            if (month != -1)
-            {
-                result = result.Where(i => i.CreatedDate.Month == month);
-            }
-
-            if (year != -1)
-            {
-                result = result.Where(i => i.CreatedDate.Year == year);
-            }
-
-            return result.ToList();
-        }
-        public List<Invoice> FilterConfirmInvoices(int month, int year, Guid userID)
-        {
-            var result = _motelManagementContext.Invoices.Include(i => i.Rooms).Where(x => x.UserId == userID
-           && x.Status == (int)Constant.InvoiceStatus.RequirePaid
-           && x.GrandTotal != 0).AsQueryable();
 
             if (month != -1)
             {

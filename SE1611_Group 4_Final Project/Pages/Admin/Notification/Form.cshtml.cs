@@ -47,7 +47,7 @@ namespace SE1611_Group_4_Final_Project.Pages.Notification
                 foundNotif.Rooms.AddRange(Notification.Rooms);
                 _repository.Update(foundNotif);
             }
-            return RedirectToPage("/Index");
+            return RedirectToPage("/Admin/Notification/Index");
         }
     }
 }
