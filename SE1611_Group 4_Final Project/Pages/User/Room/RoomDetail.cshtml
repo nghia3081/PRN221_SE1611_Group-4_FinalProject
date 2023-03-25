@@ -79,22 +79,27 @@
                         <div class="col-4 mt-4">
                             @if (String.IsNullOrEmpty(HttpContextAccessor.HttpContext.Session.GetString("User")))
                             {
-                                <form method="get" asp-page="/User/Auth/Login">
-                                    <button type="submit" class="btn bg-gradient-primary ">Book</button>
-                                </form>
                             }
                             else
                             {
-                                <form method="post" asp-page="/User/Room/RoomDetail" asp-route-id="@Model.Room.Id">
-                                    @if (Model.Room.IsAvailable == true)
-                                    {
-                                    <button type="submit" class="btn bg-gradient-primary">Book</button>
-                                    }
-                                    else
-                                    {
-                                    <button type="submit" class="btn bg-gradient-primary" disabled>Booked</button>
-                                    }
-                                </form>
+                                string userJson = HttpContextAccessor.HttpContext.Session.GetString("User");
+                                Models.User userLoggedIn = Newtonsoft.Json.JsonConvert.DeserializeObject<Models.User>(userJson);
+                                if(userLoggedIn.IsAdmin == true)
+                                {
+                                    
+                                } else
+                                {
+                                    <form method="post" asp-page="/User/Room/RoomDetail" asp-route-id="@Model.Room.Id">
+                                        @if (Model.Room.IsAvailable == true)
+                                        {
+                                            <button type="submit" class="btn bg-gradient-primary">Book</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="submit" class="btn bg-gradient-primary" disabled>Booked</button>
+                                        }
+                                    </form>
+                                }
                             }
                         </div>
                     </div>

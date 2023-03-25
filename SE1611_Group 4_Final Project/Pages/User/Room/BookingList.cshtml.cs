@@ -27,7 +27,7 @@ namespace SE1611_Group_4_Final_Project.Pages.User.Room
         {
             GrandTotal = Rooms.Sum(r => r.Price);
         }
-        public void OnGet(string id)
+        public void OnGet()
         {
             string jsonUser = HttpContext.Session.GetString("User");
             if (!string.IsNullOrEmpty(jsonUser))
@@ -56,6 +56,7 @@ namespace SE1611_Group_4_Final_Project.Pages.User.Room
         }
         public IActionResult Onpost(string from, string to)
         {
+              OnGet();
             if (Rooms != null && Rooms.Count() != 0 ){
                 string jsonUser = HttpContext.Session.GetString("User");
                 if (!string.IsNullOrEmpty(jsonUser))
@@ -70,10 +71,12 @@ namespace SE1611_Group_4_Final_Project.Pages.User.Room
                     invoice.From = DateTime.Parse(from);
                     invoice.To = DateTime.Parse(to);
                     invoice.GrandTotal = GrandTotal;
+                    invoice.Rooms = Rooms;
                     _invoiceRepository.Update(invoice).Wait();
                 }
                 return RedirectToPage("/User/Room/BookingList");
             }
+            OnGet();
             return Page();
         }
 

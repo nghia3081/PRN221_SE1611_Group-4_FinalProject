@@ -41,7 +41,7 @@ namespace SE1611_Group_4_Final_Project.Pages
                 SuggestedRooms = JsonConvert.DeserializeObject<List<Models.Room>>(json);
             }
             Room = _roomRepository.Find(Guid.Parse(id));
-            Models.Invoice invoice = _invoiceRepository.FindwithQuery(x => x.Status == ((int)Constant.InvoiceStatus.Booked) && x.UserId == user.Id).FirstOrDefault();
+            Models.Invoice invoice = _invoiceRepository.FindwithQuery(x => x.Status == ((int)Constant.InvoiceStatus.Waiting) && x.UserId == user.Id).FirstOrDefault();
             if (invoice == null)
             {
                 invoice = new Models.Invoice();

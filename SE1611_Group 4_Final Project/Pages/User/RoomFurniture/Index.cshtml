@@ -1,0 +1,112 @@
+﻿@page
+@model SE1611_Group_4_Final_Project.Pages.User.RoomFurniture.RoomFurnitureModel
+@{
+}
+
+<div class="row mt-4">
+    <div class="col-lg-12 col-sm-6">
+        <div class="card">
+            <div class="card-body p-5">
+                <form method="get">
+                    <div class="row">
+
+                        <div class="col-9 py-3 ps-0">
+                            <div class="dropdown">
+                                <p class="text-sm mb-0 text-capitalize font-weight-bold">Select Room</p>
+                                <select class="form-control" asp-for="@Model.roomId" asp-items="@Model.RoomSelect">
+                                    <option value="null">All</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-3 py-3 ps-0 text-end">
+                            <button class="btn bg-gradient-dark mb-0" type="submit">Filter</button>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@if (Model.RoomFurnitures != null)
+{
+    @foreach (var item in Model.RoomFurnitures)
+    {
+        <div class="row mt-4">
+            <div class="col-lg-12 mb-lg-0 mb-4">
+                <div class="card">
+                    <div class="card-body p-3">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="d-flex flex-column h-100">
+                                    <h5 class="font-weight-bolder">@item.Name</h5>
+                                    <p class="mb-5">@item.Room?.Name</p>
+                                    <p class="mb-5">@(Enum.GetValues(typeof(SE1611_Group_4_Final_Project.Utils.Constant.RoomFurnitureStatus)).GetValue((item.Status ?? 1) - 1))</p>
+                                    @if (item.Status == (int)SE1611_Group_4_Final_Project.Utils.Constant.RoomFurnitureStatus.Normal)
+                                    {
+                                        <a class="text-body text-sm font-weight-bold mb-0 icon-move-right mt-auto" met asp-page-handler="ReportCrashed" asp-route-id="@item.Id">
+                                            Report Crashed
+                                            <i class="fas fa-arrow-right text-sm ms-1" aria-hidden="true"></i>
+                                        </a>
+                                    }
+
+                                </div>
+                            </div>
+                            <div class="col-lg-5 ms-auto text-center mt-5 mt-lg-0">
+                                <div class="bg-gradient-primary border-radius-lg h-100">
+                                    <img src="~/img/shapes/waves-white.svg" class="position-absolute h-100 w-50 top-0 d-lg-block d-none" alt="waves">
+                                    <div class="position-relative d-flex align-items-center justify-content-center h-100">
+                                        <div id="carouselExampleIndicators@(item.Id)" class="carousel slide" data-bs-ride="carousel">
+                                            <div class="carousel-indicators">
+                                                @{
+                                                    string directory = System.IO.Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\img\roomfurniture");
+                                                    directory = $"{directory}\\{item.Id}";
+                                                    var a = true;
+                                                    if (System.IO.Directory.Exists(directory))
+                                                    {
+                                                        for (int i = 0; i < System.IO.Directory.GetFiles(directory).Length; i++)
+                                                        {
+                                                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="@i" class="@(a?"active":"")" aria-current="true" aria-label="Slide @i"></button>
+                                                            a = false;
+                                                        }
+                                                    }
+                                                }
+                                            </div>
+                                            <div class="carousel-inner" style="border-radius:5px">
+                                                @{
+                                                    a = true;
+                                                    if (System.IO.Directory.Exists(directory))
+                                                    {
+                                                        var file = System.IO.Directory.GetFiles(directory) ?? new string[0];
+                                                        foreach (var f in file)
+                                                        {
+                                                            var pathSplit = f.Split('\\');
+                                                            var fileName = pathSplit[pathSplit.Length - 1];
+                                                            <div class="carousel-item @(a?"active":"")">
+                                                                <img src="/img/roomfurniture/@item.Id/@fileName" class="d-block w-100" alt="...">
+                                                            </div>
+                                                            a = false;
+                                                        }
+                                                    }
+
+                                                }
+                                            </div>
+                                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators@(item.Id)" data-bs-slide="prev">
+                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                <span class="visually-hidden">Previous</span>
+                                            </button>
+                                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators@(item.Id)" data-bs-slide="next">
+                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                <span class="visually-hidden">Next</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}

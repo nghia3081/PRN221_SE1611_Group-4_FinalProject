@@ -37,7 +37,7 @@ namespace SE1611_Group_4_Final_Project.Pages.RoomFurniture
         {
             var rf = _repository.Find(id);
             rf.Status = (int)Constant.RoomFurnitureStatus.Crashed;
-            _repository.Update(rf);
+            _repository.Update(rf).Wait();
              OnGet();
             return RedirectToPage("/Admin/RoomFurniture/Index");
         }
@@ -45,7 +45,7 @@ namespace SE1611_Group_4_Final_Project.Pages.RoomFurniture
         {
             var rf = _repository.Find(id);
             rf.Status = (int)Constant.RoomFurnitureStatus.Normal;
-            _repository.Update(rf);
+            _repository.Update(rf).Wait();
             OnGet();
             return RedirectToPage("/Admin/RoomFurniture/Index");
         }

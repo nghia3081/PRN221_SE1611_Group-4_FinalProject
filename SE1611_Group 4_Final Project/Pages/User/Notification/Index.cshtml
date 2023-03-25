@@ -1,0 +1,29 @@
+﻿@page
+@model SE1611_Group_4_Final_Project.Pages.User.Notification.NotificationModel
+@{
+}
+@{
+    if (Model.Notification != null)
+    {
+        foreach (var nf in Model.Notification)
+        {
+            <div class="card">
+                <div class="card-body pt-2">
+                    <p class="card-title h5 d-block text-darker">
+                        @nf.Title
+                    </p>
+                    <p class="card-description mb-4">
+                        @nf.Description
+                    </p>
+                    <div class="author align-items-center">
+                        <div class="name ps-3">
+                            <div class="stats">
+                                <small>Posted on @nf.CreatedDate?.ToString("ddMMyyyy")</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+}

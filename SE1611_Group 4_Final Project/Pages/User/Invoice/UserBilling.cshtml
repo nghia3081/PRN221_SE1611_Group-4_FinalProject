@@ -53,14 +53,16 @@
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Created Date</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Description</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">From</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">To</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Total Amount</th>
-                                        <th class="text-secondary opacity-7"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        @foreach (var item in Model.RoomInvoices)
-                                        {
+
+                                    @foreach (var item in Model.RoomInvoices)
+                                    {
+                                        <tr>
                                             <td class="align-middle text-center">
                                                 <span class="text-secondary text-xs font-weight-bold">@item.Title</span>
                                             </td>
@@ -68,7 +70,13 @@
                                                 <span class="text-secondary text-xs font-weight-bold">@item.CreatedDate.Date.ToShortDateString()</span>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <span class="text-secondary text-xs font-weight-bold text-wrap">@item.Description</span>
+                                                <span class="text-secondary text-xs font-weight-bold text-wrap">@String.Join(" ,",item.Rooms?.Select(r => r.Name))</span>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <span class="text-secondary text-xs font-weight-bold">@item.From?.ToString("dd/MM/yyyy")</span>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <span class="text-secondary text-xs font-weight-bold">@item.To?.ToString("dd/MM/yyyy")</span>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <span class="badge bg-gradient-success">@Enum.GetName(typeof(Constant.InvoiceStatus),item.Status)</span>
@@ -76,13 +84,9 @@
                                             <td class="align-middle text-center">
                                                 <span class="text-secondary text-xs font-weight-bold">@item.GrandTotal $</span>
                                             </td>
-                                            <td class="align-middle">
-                                                <a asp-page="/User/Invoice/InvoiceRoomDetail" asp-route-id="@item.Id" class="text-black text-decoration-underline font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Detail Bill">
-                                                    Detail
-                                                </a>
-                                            </td>
-                                        }
-                                    </tr>
+                                        </tr>
+                                    }
+
                                 </tbody>
                             </table>
                         </div>
